@@ -1,0 +1,60 @@
+﻿@model IEnumerable<DEMO_PuellaSchoolAPP.Models.StudentsModel>
+
+@{
+    ViewData["Title"] = "Estudiantes";
+}
+
+<h1>Listado de estudiantes</h1>
+
+<p>
+    <a asp-action="Create" asp-controller="Students" class="btn btn-success">
+        Registrar nuevo estudiate
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nombres
+            </th>
+            <th>
+                Apellidos
+            </th>
+            <th>
+                Edad
+            </th>
+            <th>
+                Sexo
+            </th>
+            <th>
+                Nombre del encargado
+            </th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentAge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentGender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentParentName)
+            </td>
+            <td>
+                 <a class="btn btn-info mx-2" asp-action="Edit" asp-route-id="@item.StudentId">Editar</a>
+                 <a class="btn btn-danger mx-2" asp-action="Delete" asp-route-id="@item.StudentId">Borrar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,36 @@
+﻿@model DEMO_PuellaSchoolAPP.Models.ClassroomsModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h3>¿Deseas borrar este registro?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Clase:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ClassId)
+        </dd>
+        <dt class = "col-sm-2">
+            Estudiante:
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Students.StudentName)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input asp-for="ClassroomId" type="hidden" class="form-control" />
+        <div class="col-4 offset-2 row">
+            <div class="col">
+                <button type="submit" class="btn btn-danger w-100">Borrar</button>
+            </div>
+            <div class="col">
+                <a class="btn btn-info w-100" asp-action="Index">Volver</a>
+            </div>
+        </div>
+    </form>
+</div>
