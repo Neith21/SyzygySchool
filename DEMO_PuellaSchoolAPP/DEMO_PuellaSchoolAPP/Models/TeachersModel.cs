@@ -2,11 +2,11 @@
 
 namespace DEMO_PuellaSchoolAPP.Models
 {
-    public class TeacherModel
+    public class TeachersModel
     {
         [Key]
-        public int IdTeacher { get; set; }
-
+        public int TeacherID { get; set; }
+        
         [Required]
         [StringLength(50)]
         public string TeacherName { get; set; }
@@ -19,13 +19,13 @@ namespace DEMO_PuellaSchoolAPP.Models
         public int TeacherAge { get; set; }
 
         [StringLength(1)]
-        public string TeacherGender { get; set; }
+        public int TeacherGender { get; set; }
 
         [StringLength(9)]
         public string TeacherPhone { get; set; }
 
         [StringLength(50)]
-        public string TeacherEMail { get; set; }
+        public string TeacherEmail { get; set; }
 
         [StringLength(75)]
         public string TeacherToken { get; set; }

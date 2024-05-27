@@ -2,10 +2,10 @@
 
 namespace DEMO_PuellaSchoolAPP.Models
 {
-    public class StudentModel
+    public class StudentsModel
     {
         [Key]
-        public int IdStudent { get; set; }
+        public int StudentId { get; set; }
 
         [Required]
         [StringLength(50)]

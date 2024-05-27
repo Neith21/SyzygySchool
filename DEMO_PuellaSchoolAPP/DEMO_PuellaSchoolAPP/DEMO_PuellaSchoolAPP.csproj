@@ -13,17 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\Grades\" />
-    <Folder Include="Repositories\Classes\" />
-    <Folder Include="Repositories\Logins\" />
-    <Folder Include="Repositories\Classrooms\" />
-    <Folder Include="Repositories\StudentsClasses\" />
-    <Folder Include="Repositories\Rols\" />
-    <Folder Include="Repositories\Schedules\" />
-    <Folder Include="Repositories\Sections\" />
-    <Folder Include="Repositories\Subjects\" />
-    <Folder Include="Repositories\Students\" />
-    <Folder Include="Repositories\Teachers\" />
+    <Folder Include="Repositories\RTeachers\" />
+    <Folder Include="Repositories\RSubjects\" />
+    <Folder Include="Repositories\RSections\" />
+    <Folder Include="Repositories\RSchedules\" />
+    <Folder Include="Repositories\RRoles\" />
+    <Folder Include="Repositories\RLogins\" />
+    <Folder Include="Repositories\RGrades\" />
+    <Folder Include="Repositories\RClassrooms\" />
+    <Folder Include="Repositories\RClasses\" />
   </ItemGroup>
 
 </Project>
