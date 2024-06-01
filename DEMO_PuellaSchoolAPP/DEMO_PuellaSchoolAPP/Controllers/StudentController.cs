@@ -4,9 +4,11 @@ using FluentValidation;
 using DEMO_PuellaSchoolAPP.Validations;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
+    [Authorize]
     public class StudentController : Controller
     {
         private readonly IStudentsRepository _studentsRepository;

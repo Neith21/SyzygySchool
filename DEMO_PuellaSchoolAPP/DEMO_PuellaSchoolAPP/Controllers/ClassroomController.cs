@@ -1,10 +1,12 @@
 ﻿    using DEMO_PuellaSchoolAPP.Models;
     using DEMO_PuellaSchoolAPP.Repositories.RClassrooms;
-    using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     namespace DEMO_PuellaSchoolAPP.Controllers
     {
+        [Authorize]
         public class ClassroomController : Controller
         {
             private readonly IClassroomsRepository _classroomsRepository;

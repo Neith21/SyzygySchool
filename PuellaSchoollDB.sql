@@ -330,3 +330,132 @@ BEGIN
 	SELECT ClassroomId, (S.StudentName + ' ' + S.StudentLastName ) AS StudentName, ClassId, C.StudentId FROM Classrooms C INNER JOIN Students S ON C.StudentID = S.StudentID
 END
 GO
+
+---------------------------------------- Procesos almacenados de login --------------------------------------
+-- Procedimiento almacenado para SELECT
+CREATE OR ALTER PROCEDURE spLogin_GetAll
+AS
+BEGIN
+    SELECT LoginId, LoginUser, LoginPassword, TeacherId, RoleId
+    FROM Logins;
+END;
+GO
+
+-- Procedimiento almacenado para SELECTBYID
+CREATE OR ALTER PROCEDURE spLogin_GetByID
+	@LoginId INT
+AS
+BEGIN
+    SELECT LoginId, LoginUser, LoginPassword, TeacherId, RoleId
+    FROM Logins
+	WHERE LoginId = @LoginId
+END;
+GO
+
+-- Procedimiento almacenado para INSERT
+CREATE OR ALTER PROCEDURE spLogin_Insert
+    @LoginUser NVARCHAR(50),
+    @LoginPassword NVARCHAR(50),
+    @TeacherId INT,
+    @RoleId INT
+AS
+BEGIN
+    INSERT INTO Logins (LoginUser, LoginPassword, TeacherId, RoleId)
+    VALUES (@LoginUser, @LoginPassword, @TeacherId, @RoleId);
+END;
+GO
+
+-- Procedimiento almacenado para UPDATE
+CREATE OR ALTER PROCEDURE spLogin_Update
+    @LoginId INT,
+    @LoginUser NVARCHAR(50),
+    @LoginPassword NVARCHAR(50),
+    @TeacherId INT,
+    @RoleId INT
+AS
+BEGIN
+    UPDATE Logins
+    SET LoginUser = @LoginUser,
+        LoginPassword = @LoginPassword,
+        TeacherId = @TeacherId,
+        RoleId = @RoleId
+    WHERE LoginId = @LoginId;
+END;
+GO
+
+-- Procedimiento almacenado para DELETE
+CREATE OR ALTER PROCEDURE spLogin_Delete
+    @LoginId INT
+AS
+BEGIN
+    DELETE FROM Logins
+    WHERE LoginId = @LoginId;
+END;
+GO
+
+-------------------------------------Procesos almacenados de ROLES --------------------------------------
+
+-- Procedimiento almacenado para la consulta SELECT
+CREATE OR ALTER PROCEDURE spRoles_GetAll
+AS
+BEGIN
+    SELECT RoleId, RoleName, RoleInfo
+    FROM Roles;
+END;
+GO
+
+CREATE PROCEDURE spRoles_GetById
+	@RoleId INT
+AS
+BEGIN
+    SELECT RoleId, RoleName, RoleInfo
+    FROM Roles
+	WHERE RoleId = @RoleId
+END;
+GO
+
+
+-- Procedimiento almacenado para la consulta INSERT
+CREATE OR ALTER PROCEDURE spRoles_Insert
+    @RoleName VARCHAR(50),
+    @RoleInfo VARCHAR(100)
+AS
+BEGIN
+    INSERT INTO Roles (RoleName, RoleInfo)
+    VALUES (@RoleName, @RoleInfo);
+END;
+GO
+
+
+-- Procedimiento almacenado para la consulta UPDATE
+CREATE OR ALTER PROCEDURE spRoles_Update
+    @RoleId INT,
+    @RoleName VARCHAR(50),
+    @RoleInfo VARCHAR(100)
+AS
+BEGIN
+    UPDATE Roles
+    SET RoleName = @RoleName, RoleInfo = @RoleInfo
+    WHERE RoleId = @RoleId;
+END;
+GO
+
+-- Procedimiento almacenado para la consulta DELETE
+CREATE OR ALTER PROCEDURE spRoles_Delete
+    @RoleId INT
+AS
+BEGIN
+    DELETE FROM Roles
+    WHERE RoleId = @RoleId;
+END;
+GO
+
+------------------------------------- TEACHER --------------------------------
+-- Procedimiento almacenado para la consulta SELECT
+CREATE OR ALTER PROCEDURE spTeachers_GetAll
+AS
+BEGIN
+    SELECT TeacherId, TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail, TeacherToken
+    FROM Teachers;
+END;
+GO
