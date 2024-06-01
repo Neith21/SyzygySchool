@@ -4,12 +4,16 @@ namespace DEMO_PuellaSchoolAPP.Models
 {
     public class ClassModel
     {
-        [Key]
         public int ClassId { get; set; }
+
+        [Required(ErrorMessage = "El grado es obligatorio")]
         public int GradeId { get; set; }
+
+        [Required(ErrorMessage = "La sección es obligatoria")]
         public int SectionId { get; set; }
 
-        public SectionModel? Sections { get; set; }
         public GradeModel? Grades { get; set; }
+
+        public SectionModel? Sections { get; set; }
     }
 }

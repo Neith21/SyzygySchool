@@ -4,9 +4,9 @@ namespace DEMO_PuellaSchoolAPP.Models
 {
     public class GradeModel
     {
-        [Key]
         public int GradeId { get; set; }
 
-        public string GradeName { get; set;}
+        [Required(ErrorMessage = "El nombre del grado es obligatorio")]
+        public string GradeName { get; set; }
     }
 }
