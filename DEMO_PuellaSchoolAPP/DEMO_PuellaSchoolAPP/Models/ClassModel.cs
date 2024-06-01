@@ -2,14 +2,14 @@
 
 namespace DEMO_PuellaSchoolAPP.Models
 {
-    public class ClassesModel
+    public class ClassModel
     {
         [Key]
         public int ClassId { get; set; }
         public int GradeId { get; set; }
         public int SectionId { get; set; }
 
-        public SectionsModel? Sections { get; set; }
-        public GradesModel? Grades { get; set; }
+        public SectionModel? Sections { get; set; }
+        public GradeModel? Grades { get; set; }
     }
 }

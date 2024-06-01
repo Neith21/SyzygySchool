@@ -2,7 +2,7 @@
 
 namespace DEMO_PuellaSchoolAPP.Models
 {
-    public class GradesModel
+    public class GradeModel
     {
         [Key]
         public int GradeId { get; set; }

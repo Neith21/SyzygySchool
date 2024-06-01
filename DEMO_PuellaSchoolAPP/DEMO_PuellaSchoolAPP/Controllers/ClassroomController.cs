@@ -5,12 +5,12 @@
 
     namespace DEMO_PuellaSchoolAPP.Controllers
     {
-        public class ClassroomsController : Controller
+        public class ClassroomController : Controller
         {
             private readonly IClassroomsRepository _classroomsRepository;
             private SelectList _studentsList;
 
-            public ClassroomsController(IClassroomsRepository classroomsRepository)
+            public ClassroomController(IClassroomsRepository classroomsRepository)
             {
                 _classroomsRepository = classroomsRepository;
                 
@@ -21,8 +21,8 @@
                 var clasrooms = await _classroomsRepository.GetAllAsync();
                 _studentsList = new SelectList(
                                     await _classroomsRepository.GetAllStudents(),
-                                    nameof(StudentsModel.StudentId),
-                                    nameof(StudentsModel.StudentName)
+                                    nameof(StudentModel.StudentId),
+                                    nameof(StudentModel.StudentName)
                     );
 
                 return View(clasrooms);
@@ -37,7 +37,7 @@
 
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public async Task<ActionResult> Create(ClassroomsModel classrooms)
+            public async Task<ActionResult> Create(ClassroomModel classrooms)
             {
                 try
                 {
@@ -65,8 +65,8 @@
 
                 _studentsList = new SelectList(
                                         await _classroomsRepository.GetAllStudents(),
-                                        nameof(StudentsModel.StudentId),
-                                        nameof(StudentsModel.StudentName),
+                                        nameof(StudentModel.StudentId),
+                                        nameof(StudentModel.StudentName),
                                         classrooms?.Students?.StudentId
                     );
 
@@ -76,7 +76,7 @@
 
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public async Task<ActionResult> Edit(ClassroomsModel classrooms)
+            public async Task<ActionResult> Edit(ClassroomModel classrooms)
             {
                 try
                 {
@@ -107,7 +107,7 @@
 
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public async Task<ActionResult> Delete(ClassroomsModel classrooms)
+            public async Task<ActionResult> Delete(ClassroomModel classrooms)
             {
                 try
                 {

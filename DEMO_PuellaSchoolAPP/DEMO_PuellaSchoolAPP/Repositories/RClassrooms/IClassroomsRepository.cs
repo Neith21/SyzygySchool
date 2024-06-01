@@ -4,11 +4,11 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RClassrooms
 {
     public interface IClassroomsRepository
     {
-        Task AddAsync(ClassroomsModel classrooms);
+        Task AddAsync(ClassroomModel classrooms);
         Task DeleteAsync(int id);
-        Task EditAsync(ClassroomsModel classrooms);
-        Task<IEnumerable<ClassroomsModel>> GetAllAsync();
-        Task<IEnumerable<StudentsModel>> GetAllStudents();
-        Task<ClassroomsModel?> GetByIdAsync(int id);
+        Task EditAsync(ClassroomModel classrooms);
+        Task<IEnumerable<ClassroomModel>> GetAllAsync();
+        Task<IEnumerable<StudentModel>> GetAllStudents();
+        Task<ClassroomModel?> GetByIdAsync(int id);
     }
 }

@@ -7,21 +7,46 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.1.35" />
-    <PackageReference Include="MailKit" Version="4.6.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <Compile Remove="Repositories\RClasses\**" />
+    <Compile Remove="Repositories\RGrades\**" />
+    <Compile Remove="Repositories\RLogins\**" />
+    <Compile Remove="Repositories\RRoles\**" />
+    <Compile Remove="Repositories\RSchedules\**" />
+    <Compile Remove="Repositories\RSections\**" />
+    <Compile Remove="Repositories\RSubjects\**" />
+    <Compile Remove="Repositories\RTeachers\**" />
+    <Content Remove="Repositories\RClasses\**" />
+    <Content Remove="Repositories\RGrades\**" />
+    <Content Remove="Repositories\RLogins\**" />
+    <Content Remove="Repositories\RRoles\**" />
+    <Content Remove="Repositories\RSchedules\**" />
+    <Content Remove="Repositories\RSections\**" />
+    <Content Remove="Repositories\RSubjects\**" />
+    <Content Remove="Repositories\RTeachers\**" />
+    <EmbeddedResource Remove="Repositories\RClasses\**" />
+    <EmbeddedResource Remove="Repositories\RGrades\**" />
+    <EmbeddedResource Remove="Repositories\RLogins\**" />
+    <EmbeddedResource Remove="Repositories\RRoles\**" />
+    <EmbeddedResource Remove="Repositories\RSchedules\**" />
+    <EmbeddedResource Remove="Repositories\RSections\**" />
+    <EmbeddedResource Remove="Repositories\RSubjects\**" />
+    <EmbeddedResource Remove="Repositories\RTeachers\**" />
+    <None Remove="Repositories\RClasses\**" />
+    <None Remove="Repositories\RGrades\**" />
+    <None Remove="Repositories\RLogins\**" />
+    <None Remove="Repositories\RRoles\**" />
+    <None Remove="Repositories\RSchedules\**" />
+    <None Remove="Repositories\RSections\**" />
+    <None Remove="Repositories\RSubjects\**" />
+    <None Remove="Repositories\RTeachers\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\RTeachers\" />
-    <Folder Include="Repositories\RSubjects\" />
-    <Folder Include="Repositories\RSections\" />
-    <Folder Include="Repositories\RSchedules\" />
-    <Folder Include="Repositories\RRoles\" />
-    <Folder Include="Repositories\RLogins\" />
-    <Folder Include="Repositories\RGrades\" />
-    <Folder Include="Repositories\RClasses\" />
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="FluentValidation" Version="11.9.1" />
+    <PackageReference Include="MailKit" Version="4.6.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
   </ItemGroup>
 
 </Project>

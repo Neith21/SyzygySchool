@@ -12,7 +12,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RClassrooms
             _dataAccess = dataAccess;
         }
 
-        public async Task AddAsync(ClassroomsModel classrooms)
+        public async Task AddAsync(ClassroomModel classrooms)
         {
             await _dataAccess.SaveDataAsync(
                 "dbo.spClassrooms_Insert",
@@ -27,7 +27,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RClassrooms
                 );
         }
 
-        public async Task EditAsync(ClassroomsModel classrooms)
+        public async Task EditAsync(ClassroomModel classrooms)
         {
             await _dataAccess.SaveDataAsync(
                 "dbo.spClasrooms_Update",
@@ -35,25 +35,25 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RClassrooms
                 );
         }
 
-        public async Task<IEnumerable<ClassroomsModel>> GetAllAsync()
+        public async Task<IEnumerable<ClassroomModel>> GetAllAsync()
         {
-            return await _dataAccess.GetDataAsync<ClassroomsModel, dynamic>(
+            return await _dataAccess.GetDataAsync<ClassroomModel, dynamic>(
                 "dbo.spClassrooms_GetAll",
                 new { }
                 );
         }
 
-        public async Task<IEnumerable<StudentsModel>> GetAllStudents()
+        public async Task<IEnumerable<StudentModel>> GetAllStudents()
         {
-            return await _dataAccess.GetDataAsync<StudentsModel, dynamic>(
+            return await _dataAccess.GetDataAsync<StudentModel, dynamic>(
                 "dbo.spStudents_GetAll",
                 new { }
                 );
         }
 
-        public async Task<ClassroomsModel?> GetByIdAsync(int id)
+        public async Task<ClassroomModel?> GetByIdAsync(int id)
         {
-            var classroom = await _dataAccess.GetDataAsync<ClassroomsModel, dynamic>(
+            var classroom = await _dataAccess.GetDataAsync<ClassroomModel, dynamic>(
                 "dbo.spClassrooms_GetById",
                 new { ClassroomId = id }
                 );

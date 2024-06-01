@@ -12,7 +12,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RStudents
             _dataAccess = dataAccess;
         }
 
-        public async Task AddAsync(StudentsModel students)
+        public async Task AddAsync(StudentModel students)
         {
             await _dataAccess.SaveDataAsync(
                 "dbo.spStudents_Insert",
@@ -27,7 +27,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RStudents
                 );
         }
 
-        public async Task EditAsync(StudentsModel students)
+        public async Task EditAsync(StudentModel students)
         {
             await _dataAccess.SaveDataAsync(
                 "dbo.spStudents_Update",
@@ -35,17 +35,17 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RStudents
                 );
         }
 
-        public async Task<IEnumerable<StudentsModel>> GetAllAsync()
+        public async Task<IEnumerable<StudentModel>> GetAllAsync()
         {
-            return await _dataAccess.GetDataAsync<StudentsModel, dynamic>(
+            return await _dataAccess.GetDataAsync<StudentModel, dynamic>(
                 "dbo.spStudents_GetAll",
                 new { }
                 );
         }
 
-        public async Task<StudentsModel?> GetByIdAsync(int id)
+        public async Task<StudentModel?> GetByIdAsync(int id)
         {
-            var student = await _dataAccess.GetDataAsync<StudentsModel, dynamic>(
+            var student = await _dataAccess.GetDataAsync<StudentModel, dynamic>(
                 "dbo.spStudents_GetById",
                 new { StudentId = id }
                 );

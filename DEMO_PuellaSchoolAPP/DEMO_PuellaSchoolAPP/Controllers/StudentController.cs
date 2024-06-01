@@ -1,17 +1,21 @@
 ﻿using DEMO_PuellaSchoolAPP.Models;
 using DEMO_PuellaSchoolAPP.Repositories.RStudents;
+using FluentValidation;
+using DEMO_PuellaSchoolAPP.Validations;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
-    public class StudentsController : Controller
+    public class StudentController : Controller
     {
         private readonly IStudentsRepository _studentsRepository;
+        private readonly IValidator<StudentModel> _validator;
 
-        public StudentsController(IStudentsRepository studentsRepository)
+        public StudentController(IStudentsRepository studentsRepository, IValidator<StudentModel> validator)
         {
             _studentsRepository = studentsRepository;
+            _validator = validator;
         }
 
         public async Task<ActionResult> Index()
@@ -29,10 +33,23 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(StudentsModel students)
+        public async Task<ActionResult> Create(StudentModel students)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(students);
+            }
+
             try
             {
+                FluentValidation.Results.ValidationResult validationResult = await _validator.ValidateAsync(students);
+
+                if (!validationResult.IsValid)
+                {
+                    validationResult.AddToModelState(ModelState);
+                    return View(students);
+                }
+
                 await _studentsRepository.AddAsync(students);
 
                 return RedirectToAction(nameof(Index));
@@ -40,10 +57,10 @@ namespace DEMO_PuellaSchoolAPP.Controllers
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
-
                 return View(students);
             }
         }
+
 
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
@@ -58,10 +75,23 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(StudentsModel students)
+        public async Task<ActionResult> Edit(StudentModel students)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(students);
+            }
+
             try
             {
+                FluentValidation.Results.ValidationResult validationResult = await _validator.ValidateAsync(students);
+
+                if (!validationResult.IsValid)
+                {
+                    validationResult.AddToModelState(ModelState);
+                    return View(students);
+                }
+
                 await _studentsRepository.EditAsync(students);
 
                 return RedirectToAction(nameof(Index));
@@ -88,7 +118,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(StudentsModel students)
+        public async Task<ActionResult> Delete(StudentModel students)
         {
             try
             {

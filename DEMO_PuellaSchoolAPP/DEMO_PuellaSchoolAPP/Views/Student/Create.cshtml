@@ -1,20 +1,16 @@
-﻿@model DEMO_PuellaSchoolAPP.Models.StudentsModel
+﻿@model DEMO_PuellaSchoolAPP.Models.StudentModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
-<h1>Edit</h1>
+<h1>Registrar nuevo estudiante</h1>
 
-<h4>StudentsModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <input asp-for="StudentId" type="hidden" class="form-control" />
-            </div>
             <div class="form-group">
                 <label asp-for="StudentName" class="control-label">Nombres</label>
                 <input asp-for="StudentName" class="form-control" />
@@ -33,8 +29,10 @@
             <div class="form-group">
                 <label asp-for="StudentGender" class="control-label">Sexo</label>
                 <select asp-for="StudentGender" class="form-control">
+                    <option>Seleccione</option>
                     <option value="M">Masculino</option>
                     <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
                 </select>
                 <span asp-validation-for="StudentGender" class="text-danger"></span>
             </div>
@@ -45,7 +43,7 @@
             </div>
             <br />
             <button type="submit" class="btn btn-primary">Aceptar</button>
-            <a href="@Url.Action("Index", "Students")" class="btn btn-secondary">Cancelar</a>
+            <a href="@Url.Action("Index", "Student")" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 </div>

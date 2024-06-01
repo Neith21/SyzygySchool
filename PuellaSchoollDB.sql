@@ -108,9 +108,6 @@ CREATE TABLE Logins(
 );
 GO
 
-USE PuellaSchoolDB;
-GO
-
 -- Insertando registros en la tabla Students
 INSERT INTO Students (StudentName, StudentLastName, StudentAge, StudentGender, StudentParentName)
 VALUES 

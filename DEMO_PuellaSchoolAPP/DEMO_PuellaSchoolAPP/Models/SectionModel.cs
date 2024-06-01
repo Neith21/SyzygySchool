@@ -2,7 +2,7 @@
 
 namespace DEMO_PuellaSchoolAPP.Models
 {
-    public class SectionsModel
+    public class SectionModel
     {
         [Key]
         public int SectionId { get; set; }

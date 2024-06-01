@@ -4,10 +4,10 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RStudents
 {
     public interface IStudentsRepository
     {
-        Task AddAsync(StudentsModel students);
+        Task AddAsync(StudentModel students);
         Task DeleteAsync(int id);
-        Task EditAsync(StudentsModel students);
-        Task<IEnumerable<StudentsModel>> GetAllAsync();
-        Task<StudentsModel?> GetByIdAsync(int id);
+        Task EditAsync(StudentModel students);
+        Task<IEnumerable<StudentModel>> GetAllAsync();
+        Task<StudentModel?> GetByIdAsync(int id);
     }
 }

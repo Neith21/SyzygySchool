@@ -2,7 +2,7 @@
 
 namespace DEMO_PuellaSchoolAPP.Models
 {
-    public class ClassroomsModel
+    public class ClassroomModel
     {
         [Key]
         public int ClassroomId { get; set; }
@@ -11,8 +11,8 @@ namespace DEMO_PuellaSchoolAPP.Models
 
         public int StudentId { get; set; }
 
-        public StudentsModel? Students { get; set; }
-        public ClassesModel? Classes { get; set; }
+        public StudentModel? Students { get; set; }
+        public ClassModel? Classes { get; set; }
 
     }
 }
