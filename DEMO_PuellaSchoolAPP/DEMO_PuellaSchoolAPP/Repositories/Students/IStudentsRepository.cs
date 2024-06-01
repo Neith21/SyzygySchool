@@ -9,5 +9,6 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RStudents
         Task EditAsync(StudentModel students);
         Task<IEnumerable<StudentModel>> GetAllAsync();
         Task<StudentModel?> GetByIdAsync(int id);
+        Task ImportDataAsync(string filePath);
     }
 }

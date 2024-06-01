@@ -52,13 +52,61 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
                 await _studentsRepository.AddAsync(students);
 
+                TempData["message"] = "Datos guardados correctamente.";
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
+                TempData["message"] = ex.Message;
+
                 return View(students);
             }
+        }
+
+		[HttpGet]
+		public IActionResult ImportData()
+		{
+			return View();
+		}
+
+        [HttpPost]
+        public async Task<IActionResult> ImportData(IFormFile file)
+        {
+            var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            if (file != null && file.Length > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(directoryPath, fileName);
+
+                try
+                {
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+
+                    await _studentsRepository.ImportDataAsync(path);
+
+                    TempData["message"] = "Los datos se importaron exitosamente.";
+                }
+                catch (Exception ex)
+                {
+                    TempData["message"] = $"Ocurrió un error durante la importación de datos: {ex.Message}";
+                }
+            }
+            else
+            {
+                TempData["message"] = "Por favor, selecciona un archivo antes de enviar.";
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -94,11 +142,14 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
                 await _studentsRepository.EditAsync(students);
 
+                TempData["message"] = "Datos editados correctamente.";
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
+                TempData["message"] = ex.Message;
+
                 return View(students);
             }
         }
@@ -123,10 +174,15 @@ namespace DEMO_PuellaSchoolAPP.Controllers
             try
             {
                  await _studentsRepository.DeleteAsync(students.StudentId);
+
+                TempData["message"] = "Datos eliminados correctamente.";
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                TempData["message"] = ex.Message;
+
                 return View();
             }
         }

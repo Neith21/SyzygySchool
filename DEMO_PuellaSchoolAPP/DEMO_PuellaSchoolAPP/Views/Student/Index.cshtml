@@ -4,57 +4,110 @@
     ViewData["Title"] = "Estudiantes";
 }
 
-<h1>Listado de estudiantes</h1>
+<h1 style="text-align:center">Listado de Estudiantes</h1>
 
-<p>
-    <a asp-action="Create" asp-controller="Student" class="btn btn-success">
-        Registrar nuevo estudiate
-    </a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Nombres
-            </th>
-            <th>
-                Apellidos
-            </th>
-            <th>
-                Edad
-            </th>
-            <th>
-                Sexo
-            </th>
-            <th>
-                Nombre del encargado
-            </th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentLastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentAge)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentGender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentParentName)
-            </td>
-            <td>
-                 <a class="btn btn-info mx-2" asp-action="Edit" asp-route-id="@item.StudentId">Editar</a>
-                 <a class="btn btn-danger mx-2" asp-action="Delete" asp-route-id="@item.StudentId">Borrar</a>
-            </td>
-        </tr>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="row d-flex">
+				<div class="col-6">
+					<div class="mb-3 mb-3">
+						<a asp-action="Create" asp-controller="Student" class="btn btn-success">
+							Nuevo Estudiante
+						</a>
+					</div>
+				</div>
+				<div class="col-6 text-end">
+					<div class="mb-3 mb-3">
+						<a asp-action="ImportData" asp-controller="Student" class="btn btn-success">
+							Importar Datos de Excel
+						</a>
+					</div>
+				</div>
+			</div>
+
+			@if (TempData["message"] != null)
+			{
+				<div class="alert alert-primary" role="alert">
+					@TempData["message"]
+				</div>
+			}
+
+			<table class="table table-bordered table-striped table-responsive" id="studentTable">
+				<thead>
+					<tr>
+						<td>ID</td>
+						<td>Nombre</td>
+						<td>Apellidos</td>
+						<td>Edad</td>
+						<td>Sexo</td>
+						<td>Nombre del encargado</td>
+						<td>Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var student in Model)
+					{
+						<tr>
+							<td>@Html.DisplayFor(item => student.StudentId)</td>
+							<td>@Html.DisplayFor(item => student.StudentName)</td>
+							<td>@Html.DisplayFor(item => student.StudentLastName)</td>
+							<td>@Html.DisplayFor(item => student.StudentAge)</td>
+							<td>@Html.DisplayFor(item => student.StudentGender)</td>
+							<td>@Html.DisplayFor(item => student.StudentParentName)</td>
+							<td>
+								<a asp-controller="Student" asp-action="Edit" asp-route-id="@student.StudentId" class="btn btn-primary">
+									<i class="fa fa-pencil-alt"></i>
+								</a>
+								<a asp-controller="Student" asp-action="Delete" asp-route-id="@student.StudentId" class="btn btn-danger">
+									<i class="fa fa-trash"></i>
+								</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#studentTable").DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'csv',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'pdf',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'excel',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					}
+				],
+				columnDefs: [
+					{
+						targets: 6,
+						orderable: false,
+						searchable: false
+					}
+				],
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+				}
+			});
+		});
+	</script>
 }
-    </tbody>
-</table>

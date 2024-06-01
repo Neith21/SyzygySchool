@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Importando Datos desde Excel";
+}
+
+<h1>Importando Datos desde Excel</h1>
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-primary" role="alert">
+        @TempData["message"]
+    </div>
+}
+
+<form asp-action="ImportData"
+      method="POST"
+      enctype="multipart/form-data"
+      class="form-group mt-4">
+
+    <div class="mb-3">
+        <label for="file" class="form-label">Sube tu archivo de Excel</label>
+        <input type="file" class="form-control" name="file" id="file" required />
+        <small class="form-text text-muted">Asegúrate de que el archivo esté en formato Excel.</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Guardar Datos
+    </button>
+</form>
+
+@section Scripts {
+    <script>
+        document.querySelector('form').addEventListener('submit', function () {
+            var fileInput = document.getElementById('file');
+            if (fileInput.files.length === 0) {
+                alert('Por favor, selecciona un archivo antes de enviar.');
+                event.preventDefault();
+            }
+        });
+    </script>
+}

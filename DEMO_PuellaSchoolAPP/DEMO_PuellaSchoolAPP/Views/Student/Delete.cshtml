@@ -1,53 +1,71 @@
 ﻿@model DEMO_PuellaSchoolAPP.Models.StudentModel
 
 @{
-    ViewData["Title"] = "Borrar estudiante";
+    ViewData["Title"] = "Borrar Registro Estudiante";
 }
-<h3>¿Desea eliminar la información de este estudiante?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            Nombres:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentName)
-        </dd>
-        <dt class = "col-sm-2">
-            Apellidos:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentLastName)
-        </dd>
-        <dt class = "col-sm-2">
-            Edad:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentAge)
-        </dd>
-        <dt class = "col-sm-2">
-            Sexo:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentGender)
-        </dd>
-        <dt class = "col-sm-2">
-            Nombre del encargado:
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StudentParentName)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input asp-for="StudentId" type="hidden" class="form-control" />
-        <div class="col-4 offset-2 row">
-            <div class="col">
-                <button type="submit" class="btn btn-danger w-100">Borrar</button>
-            </div>
-            <div class="col">
-                <a class="btn btn-info w-100" asp-action="Index">Volver</a>
-            </div>
-        </div>
-    </form>
+
+<div style="text-align: center;">
+    <h1>Eliminar credenciales</h1>
+    <h3>¿Está seguro que desea eliminar?</h3>
+
+    <div style="margin: 0 auto; width: fit-content;">
+        <table style="text-align: justify; border-collapse: separate; border-spacing: 0 8px;">
+            <tbody>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.StudentId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.StudentId)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.StudentName)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.StudentName)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.StudentLastName)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.StudentLastName)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.StudentAge)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.StudentAge)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.StudentGender)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.StudentGender)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.StudentParentName)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.StudentParentName)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form asp-action="Delete">
+            <input asp-for="StudentId" type="hidden" class="form-control" />
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-primary">Regresar al listado</a>
+        </form>
+    </div>
 </div>

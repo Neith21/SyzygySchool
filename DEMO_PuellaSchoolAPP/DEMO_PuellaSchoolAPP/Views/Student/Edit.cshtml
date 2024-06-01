@@ -1,57 +1,76 @@
 ﻿@model DEMO_PuellaSchoolAPP.Models.StudentModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edición de Registro Estudiante";
 }
 
-<h1>Edit</h1>
+<h1 style="text-align:center">Edición de Registro Estudiante</h1>
 
-<h4>StudentsModel</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <input asp-for="StudentId" type="hidden" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label asp-for="StudentName" class="control-label">Nombres</label>
-                <input asp-for="StudentName" class="form-control" />
-                <span asp-validation-for="StudentName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StudentLastName" class="control-label">Apellidos</label>
-                <input asp-for="StudentLastName" class="form-control" />
-                <span asp-validation-for="StudentLastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StudentAge" class="control-label">Edad</label>
-                <input asp-for="StudentAge" class="form-control" />
-                <span asp-validation-for="StudentAge" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StudentGender" class="control-label">Sexo</label>
-                <select asp-for="StudentGender" class="form-control">
-                    <option>Seleccione</option>
-                    <option value="M">Masculino</option>
-                    <option value="F">Femenino</option>
-                    <option value="O">Otro</option>
-                </select>
-                <span asp-validation-for="StudentGender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StudentParentName" class="control-label">Nombre del encargado</label>
-                <input asp-for="StudentParentName" class="form-control" />
-                <span asp-validation-for="StudentParentName" class="text-danger"></span>
-            </div>
-            <br />
-            <button type="submit" class="btn btn-primary">Aceptar</button>
-            <a href="@Url.Action("Index", "Student")" class="btn btn-secondary">Cancelar</a>
-        </form>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Edit" onsubmit="return confirmAction();">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <input asp-for="StudentId" type="hidden" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="StudentName" class="control-label">Nombres</label>
+                    <input asp-for="StudentName" class="form-control" />
+                    <span asp-validation-for="StudentName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StudentLastName" class="control-label">Apellidos</label>
+                    <input asp-for="StudentLastName" class="form-control" />
+                    <span asp-validation-for="StudentLastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StudentAge" class="control-label">Edad</label>
+                    <input asp-for="StudentAge" class="form-control" />
+                    <span asp-validation-for="StudentAge" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StudentGender" class="control-label">Sexo</label>
+                    <select asp-for="StudentGender" class="form-control">
+                        <option>Seleccione</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                        <option value="O">Otro</option>
+                    </select>
+                    <span asp-validation-for="StudentGender" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StudentParentName" class="control-label">Nombre del encargado</label>
+                    <input asp-for="StudentParentName" class="form-control" />
+                    <span asp-validation-for="StudentParentName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Editar" class="btn btn-primary" />
+
+                    <a asp-action="Index" class="btn btn-danger">Regresar al listado</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function confirmAction() {
+            if (confirm('¿Está seguro de editar este registro?')) {
+                return true;
+            } else {
+                window.location.href = '@Url.Action("Index", "Student")';
+                return false;
+            }
+        }
+    </script>
 }
