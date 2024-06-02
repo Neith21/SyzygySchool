@@ -33,6 +33,7 @@
 						<td>ID</td>
 						<td>Información</td>
 						<td>Fecha de creación</td>
+						<td>Día</td>
 						<td>Inicio</td>
 						<td>Final</td>
 						<td>Fecha de expiración</td>
@@ -49,6 +50,7 @@
 							<td>@Html.DisplayFor(item => schedule.IdSchedule)</td>
 							<td>@Html.DisplayFor(item => schedule.ScheduleInfo)</td>
 							<td>@Html.DisplayFor(item => schedule.ScheduleCreation)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleDay)</td>
 							<td>@Html.DisplayFor(item => schedule.ScheduleStart)</td>
 							<td>@Html.DisplayFor(item => schedule.ScheduleEnd)</td>
 							<td>@Html.DisplayFor(item => schedule.ScheduleExpiration)</td>
@@ -98,7 +100,7 @@
 				],
 				columnDefs: [
 					{
-						targets: 9,
+						targets: 10,
 						orderable: false,
 						searchable: false
 					}

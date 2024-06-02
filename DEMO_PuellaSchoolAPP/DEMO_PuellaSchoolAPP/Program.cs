@@ -27,7 +27,6 @@ builder.Services.AddScoped<IGradesRepository, GradesRepository>();
 //Validations
 builder.Services.AddScoped<IValidator<StudentModel>, StudentValidator>();
 builder.Services.AddScoped<IValidator<TeacherModel>, TeacherValidator>();
-builder.Services.AddScoped<IValidator<ScheduleModel>, ScheduleValidator>();
 builder.Services.AddScoped<IValidator<RolModel>, RolValidator>();
 builder.Services.AddScoped<IValidator<LoginModel>, LoginValidator>();
 builder.Services.AddScoped<IValidator<GradeModel>, GradeValidator>();

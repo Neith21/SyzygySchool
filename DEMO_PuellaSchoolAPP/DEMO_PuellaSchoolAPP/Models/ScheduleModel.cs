@@ -11,6 +11,9 @@ namespace DEMO_PuellaSchoolAPP.Models
         [Required(ErrorMessage = "La fecha de creación del horario es obligatoria")]
         public DateTime ScheduleCreation { get; set; }
 
+        [Required(ErrorMessage = "El día del horario es obligatorio")]
+        public string ScheduleDay { get; set; }
+
         [Required(ErrorMessage = "La hora de inicio del horario es obligatoria")]
         public TimeSpan ScheduleStart { get; set; }
 

@@ -73,6 +73,7 @@ CREATE TABLE Schedules(
 	IdSchedule INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
 	ScheduleInfo VARCHAR(100),
 	ScheduleCreation DATE NOT NULL, -- Se tomará automatico
+	ScheduleDay VARCHAR(15) NOT NULL,
 	ScheduleStart TIME NOT NULL,
 	ScheduleEnd TIME NOT NULL,
 	ScheduleExpiration DATE NOT NULL, -- Se le asignará manual y junto con el ScheduleCreation se establece un periodo de validez al horario.
@@ -211,13 +212,13 @@ VALUES
 GO
 
 -- Insertando registros en la tabla Schedules
-INSERT INTO Schedules (ScheduleInfo, ScheduleCreation, ScheduleStart, ScheduleEnd, ScheduleExpiration, SubjectId, TeacherId, ClassId)
+INSERT INTO Schedules (ScheduleInfo, ScheduleCreation, ScheduleDay, ScheduleStart, ScheduleEnd, ScheduleExpiration, SubjectId, TeacherId, ClassId)
 VALUES
-('Schedule for Science', GETDATE(), '08:00:00', '09:00:00', DATEADD(MONTH, 6, GETDATE()), 2, 2, 1),
-('Schedule for History', GETDATE(), '08:00:00', '09:00:00', DATEADD(MONTH, 6, GETDATE()), 3, 3, 1),
-('Schedule for Math', GETDATE(), '08:00:00', '09:00:00', DATEADD(MONTH, 6, GETDATE()), 1, 1, 1),
-('Schedule for Science', GETDATE(), '09:00:00', '10:00:00', DATEADD(MONTH, 6, GETDATE()), 2, 2, 2),
-('Schedule for History', GETDATE(), '10:00:00', '11:00:00', DATEADD(MONTH, 6, GETDATE()), 3, 3, 3);
+('Science Class on Wednesday Morning', GETDATE(), 'Miércoles', '07:00:00', '08:20:00', DATEADD(MONTH, 6, GETDATE()), 2, 2, 1),
+('History Class on Friday Morning', GETDATE(), 'Viernes', '07:00:00', '08:20:00', DATEADD(MONTH, 6, GETDATE()), 3, 3, 1),
+('Mathematics Class on Monday Morning', GETDATE(), 'Lunes', '07:00:00', '08:20:00', DATEADD(MONTH, 6, GETDATE()), 1, 1, 1),
+('Science Class on Wednesday Morning', GETDATE(), 'Miércoles', '08:50:00', '10:10:00', DATEADD(MONTH, 6, GETDATE()), 2, 2, 2),
+('History Class on Friday Morning', GETDATE(), 'Viernes', '10:40:00', '12:00:00', DATEADD(MONTH, 6, GETDATE()), 3, 3, 3);
 GO
 
 -- Insertando registros en la tabla Roles
@@ -236,14 +237,14 @@ VALUES
 ('sophia.miller', 'password3', 3, 3);
 GO
 
-SELECT Schedules.IdSchedule, Schedules.ScheduleInfo, Schedules.ScheduleCreation, Schedules.ScheduleStart, Schedules.ScheduleEnd, Schedules.ScheduleExpiration, Subjects.SubjectName, Teachers.TeacherName, Teachers.TeacherLastName, Classes.GradeId, Classes.SectionId
+SELECT Schedules.IdSchedule, Schedules.ScheduleInfo, Schedules.ScheduleDay, Schedules.ScheduleCreation, Schedules.ScheduleStart, Schedules.ScheduleEnd, Schedules.ScheduleExpiration, Subjects.SubjectName, Teachers.TeacherName, Teachers.TeacherLastName, Classes.GradeId, Classes.SectionId
 FROM Schedules
 JOIN Subjects ON Schedules.SubjectId = Subjects.SubjectId
 JOIN Teachers ON Schedules.TeacherId = Teachers.TeacherId
 JOIN Classes ON Schedules.ClassId = Classes.ClassId
 WHERE Classes.GradeId = 1
 AND Classes.SectionId = 1
-GROUP BY Schedules.IdSchedule, Schedules.ScheduleInfo, Schedules.ScheduleCreation, Schedules.ScheduleStart, Schedules.ScheduleEnd, Schedules.ScheduleExpiration, Subjects.SubjectName, Teachers.TeacherName, Teachers.TeacherLastName, Classes.GradeId, Classes.SectionId;
+GROUP BY Schedules.IdSchedule, Schedules.ScheduleInfo, Schedules.ScheduleDay, Schedules.ScheduleCreation, Schedules.ScheduleStart, Schedules.ScheduleEnd, Schedules.ScheduleExpiration, Subjects.SubjectName, Teachers.TeacherName, Teachers.TeacherLastName, Classes.GradeId, Classes.SectionId;
 GO
 ---[Procesos almacenados para tab la students]---
 
@@ -459,7 +460,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE spTeachers_GetById
+CREATE OR ALTER PROCEDURE spTeachers_GetById
     @TeacherId INT
 AS
 BEGIN
@@ -467,7 +468,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE spTeachers_Insert
+CREATE OR ALTER PROCEDURE spTeachers_Insert
     @TeacherName NVARCHAR(100),
     @TeacherLastName NVARCHAR(100),
     @TeacherAge INT,
@@ -481,7 +482,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE spTeachers_Update
+CREATE OR ALTER PROCEDURE spTeachers_Update
     @TeacherId INT,
     @TeacherName NVARCHAR(100),
     @TeacherLastName NVARCHAR(100),
@@ -502,7 +503,7 @@ BEGIN
 END;
 GO
 
-CREATE PROCEDURE spTeachers_Delete
+CREATE OR ALTER PROCEDURE spTeachers_Delete
     @TeacherId INT
 AS
 BEGIN
@@ -511,7 +512,7 @@ END;
 GO
 ---------------------
 -- Procedimiento para obtener todos los profesores
-ALTER PROCEDURE spTeachers_GetAll
+CREATE OR ALTER PROCEDURE spTeachers_GetAll
 AS
 BEGIN
     SELECT TeacherId, TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail
@@ -520,7 +521,7 @@ END;
 GO
 
 -- Procedimiento para obtener un profesor por su ID
-ALTER PROCEDURE spTeachers_GetById
+CREATE OR ALTER PROCEDURE spTeachers_GetById
     @Id INT
 AS
 BEGIN
@@ -531,7 +532,7 @@ END;
 GO
 
 -- Procedimiento para insertar un nuevo profesor
-ALTER PROCEDURE spTeachers_Insert
+CREATE OR ALTER PROCEDURE spTeachers_Insert
     @TeacherName VARCHAR(50),
     @TeacherLastName VARCHAR(50),
     @TeacherAge INT,
@@ -546,7 +547,7 @@ END;
 GO
 
 -- Procedimiento para actualizar un profesor
-ALTER PROCEDURE spTeachers_Update
+CREATE OR ALTER PROCEDURE spTeachers_Update
     @TeacherId INT,
     @TeacherName VARCHAR(50),
     @TeacherLastName VARCHAR(50),
@@ -577,7 +578,7 @@ GO
 
 
 -- Procedimiento almacenado para insertar un nuevo registro en la tabla Subjects
-CREATE PROCEDURE spSubject_Insert
+CREATE OR ALTER PROCEDURE spSubject_Insert
     @SubjectName NVARCHAR(100),
     @SubjectInfo NVARCHAR(MAX),
     @GradeId INT
@@ -590,7 +591,7 @@ END;
 GO
 
 -- Procedimiento almacenado para eliminar un registro de la tabla Subjects por su ID
-CREATE PROCEDURE spSubject_Delete
+CREATE OR ALTER PROCEDURE spSubject_Delete
     @SubjectId INT
 AS
 BEGIN
@@ -610,7 +611,7 @@ END;
 GO
 
 -- Procedimiento almacenado para obtener un registro de la tabla Subjects por su ID
-CREATE PROCEDURE spSubject_GetById
+CREATE OR ALTER PROCEDURE spSubject_GetById
     @SubjectId INT
 AS
 BEGIN
@@ -620,7 +621,7 @@ END;
 GO
 
 -- Procedimiento almacenado para actualizar un registro de la tabla Subjects por su ID
-CREATE PROCEDURE spSubject_Update
+CREATE OR ALTER PROCEDURE spSubject_Update
     @SubjectId INT,
     @SubjectName NVARCHAR(100),
     @SubjectInfo NVARCHAR(MAX),
@@ -643,6 +644,7 @@ BEGIN
         sc.IdSchedule,
         sc.ScheduleInfo,
         sc.ScheduleCreation,
+		sc.ScheduleDay,
         sc.ScheduleStart,
         sc.ScheduleEnd,
         sc.ScheduleExpiration,
@@ -660,22 +662,106 @@ BEGIN
 END;
 GO
 
-CREATE OR ALTER PROCEDURE dbo.spSchedule_Insert
+CREATE OR ALTER PROC dbo.spSchedules_Insert
+(
     @ScheduleInfo VARCHAR(100),
-	@ScheduleCreation DATE,
+    @ScheduleDay VARCHAR(15),
     @ScheduleStart TIME,
     @ScheduleEnd TIME,
-    @ScheduleExpiration DATE,
     @SubjectId INT,
     @TeacherId INT,
     @ClassId INT
+)
 AS
 BEGIN
-    INSERT INTO Schedules (ScheduleInfo, ScheduleCreation, ScheduleStart, ScheduleEnd, ScheduleExpiration, SubjectId, TeacherId, ClassId)
-    VALUES (@ScheduleInfo, @ScheduleCreation, @ScheduleStart, @ScheduleEnd, @ScheduleExpiration, @SubjectId, @TeacherId, @ClassId);
-END;
+    DECLARE @CurrentYear INT = YEAR(GETDATE());
+    DECLARE @ScheduleExpiration DATE = DATEFROMPARTS(@CurrentYear, 12, 31);
+
+    INSERT INTO Schedules
+    (
+        ScheduleInfo,
+        ScheduleCreation,
+        ScheduleDay,
+        ScheduleStart,
+        ScheduleEnd,
+        ScheduleExpiration,
+        SubjectId,
+        TeacherId,
+        ClassId
+    )
+    VALUES
+    (
+        @ScheduleInfo,
+        GETDATE(), -- Fecha actual
+        @ScheduleDay,
+        @ScheduleStart,
+        @ScheduleEnd,
+        @ScheduleExpiration, -- Fecha de expiración automática (31 de diciembre del presente año)
+        @SubjectId,
+        @TeacherId,
+        @ClassId
+    )
+END
 GO
 
+CREATE OR ALTER PROC dbo.spSchedules_Update
+(
+    @IdSchedule INT,
+    @ScheduleInfo VARCHAR(100),
+    @ScheduleDay VARCHAR(15),
+    @ScheduleStart TIME,
+    @ScheduleEnd TIME,
+    @SubjectId INT,
+    @TeacherId INT,
+    @ClassId INT
+)
+AS
+BEGIN
+    UPDATE Schedules
+    SET 
+        ScheduleInfo = @ScheduleInfo,
+        ScheduleDay = @ScheduleDay,
+        ScheduleStart = @ScheduleStart,
+        ScheduleEnd = @ScheduleEnd,
+        SubjectId = @SubjectId,
+        TeacherId = @TeacherId,
+        ClassId = @ClassId
+    WHERE IdSchedule = @IdSchedule
+END
+GO
+
+CREATE OR ALTER PROC dbo.spSchedules_Delete
+(
+    @IdSchedule INT
+)
+AS
+BEGIN
+    DELETE FROM Schedules
+    WHERE IdSchedule = @IdSchedule
+END
+GO
+
+CREATE OR ALTER PROC dbo.spSchedules_GetById
+(
+    @IdSchedule INT
+)
+AS
+BEGIN
+    SELECT 
+        IdSchedule,
+        ScheduleInfo,
+        ScheduleCreation,
+        ScheduleDay,
+        ScheduleStart,
+        ScheduleEnd,
+        ScheduleExpiration,
+        SubjectId,
+        TeacherId,
+        ClassId
+    FROM Schedules
+    WHERE IdSchedule = @IdSchedule
+END
+GO
 
 ---[Procesos almacenados para tabla Grades]---
 CREATE OR ALTER PROC dbo.spGrades_Insert --Insert

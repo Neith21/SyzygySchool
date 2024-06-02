@@ -5,22 +5,19 @@ using DEMO_PuellaSchoolAPP.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Security.Claims;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
     public class ScheduleController : Controller
     {
         private readonly IScheduleRepository _scheduleRepository;
-        private readonly IValidator<ScheduleModel> _validator;
 
         private SelectList _subjectList;
         private SelectList _teacherList;
 
-        public ScheduleController(IScheduleRepository scheduleRepository, IValidator<ScheduleModel> validator)
+        public ScheduleController(IScheduleRepository scheduleRepository)
         {
             _scheduleRepository = scheduleRepository;
-            _validator = validator;
 
             InitializeAsync().GetAwaiter().GetResult();
         }
@@ -44,7 +41,6 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
         public async Task<ActionResult> Index()
         {
-
             var schedules = await _scheduleRepository.GetAllAsync();
 
             return View(schedules);
@@ -65,14 +61,6 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 		{
 			try
 			{
-				FluentValidation.Results.ValidationResult validationResult = await _validator.ValidateAsync(schedule);
-
-				if (!validationResult.IsValid)
-				{
-					validationResult.AddToModelState(ModelState);
-					return View(schedule);
-				}
-
 				await _scheduleRepository.AddAsync(schedule);
 
 				TempData["message"] = "Datos guardados correctamente.";
@@ -89,5 +77,89 @@ namespace DEMO_PuellaSchoolAPP.Controllers
                 return View(schedule);
 			}
 		}
-	}
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            var schedules = await _scheduleRepository.GetByIdAsync(id);
+
+            if (schedules == null)
+                return NotFound();
+
+            var subjects = await _scheduleRepository.GetAllSubjectAsync();
+            _subjectList = new SelectList(
+                subjects,
+                nameof(SubjectModel.SubjectId),
+                nameof(SubjectModel.SubjectName)
+            );
+
+            var teachers = await _scheduleRepository.GetAllTeacherAsync();
+            _teacherList = new SelectList(
+                teachers,
+                nameof(TeacherModel.TeacherId),
+                nameof(TeacherModel.TeacherName)
+            );
+
+            ViewBag.Subjects = _subjectList;
+            ViewBag.Teachers = _teacherList;
+
+            return View(schedules);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(ScheduleModel schedule)
+        {
+            try
+            {
+                await _scheduleRepository.EditAsync(schedule);
+
+                TempData["message"] = "Datos editados correctamente.";
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                ViewBag.Subjects = _subjectList;
+                ViewBag.Teachers = _teacherList;
+
+                return View(schedule);
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var schedule = await _scheduleRepository.GetByIdAsync(id);
+
+            if (schedule == null)
+            {
+                return NotFound();
+            }
+
+            return View(schedule);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(ScheduleModel schedule)
+        {
+            try
+            {
+                await _scheduleRepository.DeleteAsync(schedule.IdSchedule);
+
+                TempData["message"] = "Datos eliminados correctamente.";
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return View();
+            }
+        }
+    }
 }
