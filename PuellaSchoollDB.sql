@@ -600,10 +600,12 @@ END;
 GO
 
 -- Procedimiento almacenado para obtener todos los registros de la tabla Subjects
-CREATE PROCEDURE spSubject_GetAll
+CREATE OR ALTER PROCEDURE dbo.spSubjects_GetAll
 AS
 BEGIN
-    SELECT * FROM Subjects;
+    SELECT SubjectId, SubjectName, SubjectInfo, g.GradeName, s.GradeId
+	FROM Subjects s
+	INNER JOIN Grades g ON s.GradeId = g.GradeId;
 END;
 GO
 
@@ -632,3 +634,43 @@ BEGIN
     WHERE SubjectId = @SubjectId;
 END;
 GO
+
+---[Procesos almacenados para tabla Schedules]---
+CREATE OR ALTER PROCEDURE dbo.spSchedules_GetAll
+AS
+BEGIN
+    SELECT 
+        sc.IdSchedule,
+        sc.ScheduleInfo,
+        sc.ScheduleCreation,
+        sc.ScheduleStart,
+        sc.ScheduleEnd,
+        sc.ScheduleExpiration,
+		sc.ClassId,
+        sc.SubjectId,
+        s.SubjectName,
+        sc.TeacherId,
+        t.TeacherName
+    FROM 
+        Schedules sc
+    INNER JOIN 
+        Subjects s ON sc.SubjectId = s.SubjectId
+    INNER JOIN 
+        Teachers t ON sc.TeacherId = t.TeacherId
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spSchedule_Insert
+    @ScheduleInfo VARCHAR(100),
+	@ScheduleCreation DATE,
+    @ScheduleStart TIME,
+    @ScheduleEnd TIME,
+    @ScheduleExpiration DATE,
+    @SubjectId INT,
+    @TeacherId INT,
+    @ClassId INT
+AS
+BEGIN
+    INSERT INTO Schedules (ScheduleInfo, ScheduleCreation, ScheduleStart, ScheduleEnd, ScheduleExpiration, SubjectId, TeacherId, ClassId)
+    VALUES (@ScheduleInfo, @ScheduleCreation, @ScheduleStart, @ScheduleEnd, @ScheduleExpiration, @SubjectId, @TeacherId, @ClassId);
+END;
