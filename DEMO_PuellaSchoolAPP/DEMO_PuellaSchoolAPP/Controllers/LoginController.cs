@@ -1,15 +1,12 @@
 ﻿using DEMO_PuellaSchoolAPP.Models;
 using DEMO_PuellaSchoolAPP.Repositories.Logins;
-using DEMO_PuellaSchoolAPP.Repositories.Teachers;
 using DEMO_PuellaSchoolAPP.Repositories.Roles;
-using FluentValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.AspNetCore.Authorization;
-using DEMO_PuellaSchoolAPP.Validations;
+using DEMO_PuellaSchoolAPP.Repositories.RTeachers;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {

@@ -22,6 +22,5 @@ namespace DEMO_PuellaSchoolAPP.Models
         [Required(ErrorMessage = "El correo electrónico del profesor es obligatorio")]
         public string TeacherEmail { get; set; }
 
-        public string TeacherToken { get; set; }
     }
 }

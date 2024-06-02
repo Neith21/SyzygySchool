@@ -4,7 +4,7 @@ using DEMO_PuellaSchoolAPP.Repositories.Logins;
 using DEMO_PuellaSchoolAPP.Repositories.RClassrooms;
 using DEMO_PuellaSchoolAPP.Repositories.Roles;
 using DEMO_PuellaSchoolAPP.Repositories.RStudents;
-using DEMO_PuellaSchoolAPP.Repositories.Teachers;
+using DEMO_PuellaSchoolAPP.Repositories.RTeachers;
 using DEMO_PuellaSchoolAPP.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -18,12 +18,13 @@ builder.Services.AddScoped<IStudentsRepository, StudentsRepository>();
 builder.Services.AddScoped<IClassroomsRepository, ClassroomsRepository>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<IRolesRepository, RolesRepository>();
-builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+builder.Services.AddScoped<ITeacherRepository, TeachersRepository>();
 
 
 
 //Validations
 builder.Services.AddScoped<IValidator<StudentModel>, StudentValidator>();
+builder.Services.AddScoped<IValidator<TeacherModel>, TeacherValidator>();
 
 // login
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

@@ -64,8 +64,7 @@ CREATE TABLE Teachers(
 	TeacherAge INT NOT NULL,
 	TeacherGender CHAR(1),
 	TeacherPhone VARCHAR(30),
-	TeacherEmail NVARCHAR(75) NOT NULL,
-	TeacherToken NVARCHAR(255)
+	TeacherEmail NVARCHAR(75) NOT NULL
 );
 GO
 
@@ -204,11 +203,11 @@ VALUES
 GO
 
 -- Insertando registros en la tabla Teachers
-INSERT INTO Teachers (TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail, TeacherToken)
+INSERT INTO Teachers (TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail)
 VALUES
-('Alice', 'Brown', 30, 'F', '555-1234', 'alice.brown@example.com', 'token1'),
-('David', 'Wilson', 40, 'M', '555-5678', 'david.wilson@example.com', 'token2'),
-('Sophia', 'Miller', 35, 'F', '555-8765', 'sophia.miller@example.com', 'token3');
+('Alice', 'Brown', 30, 'F', '555-1234', 'alice.brown@example.com'),
+('David', 'Wilson', 40, 'M', '555-5678', 'david.wilson@example.com'),
+('Sophia', 'Miller', 35, 'F', '555-8765', 'sophia.miller@example.com');
 GO
 
 -- Insertando registros en la tabla Schedules
@@ -455,7 +454,181 @@ GO
 CREATE OR ALTER PROCEDURE spTeachers_GetAll
 AS
 BEGIN
-    SELECT TeacherId, TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail, TeacherToken
+    SELECT TeacherId, TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail
     FROM Teachers;
+END;
+GO
+
+CREATE PROCEDURE spTeachers_GetById
+    @TeacherId INT
+AS
+BEGIN
+    SELECT * FROM Teachers WHERE TeacherId = @TeacherId;
+END;
+GO
+
+CREATE PROCEDURE spTeachers_Insert
+    @TeacherName NVARCHAR(100),
+    @TeacherLastName NVARCHAR(100),
+    @TeacherAge INT,
+    @TeacherGender NVARCHAR(10),
+    @TeacherPhone NVARCHAR(20),
+    @TeacherEmail NVARCHAR(100)
+AS
+BEGIN
+    INSERT INTO Teachers (TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail)
+    VALUES (@TeacherName, @TeacherLastName, @TeacherAge, @TeacherGender, @TeacherPhone, @TeacherEmail);
+END;
+GO
+
+CREATE PROCEDURE spTeachers_Update
+    @TeacherId INT,
+    @TeacherName NVARCHAR(100),
+    @TeacherLastName NVARCHAR(100),
+    @TeacherAge INT,
+    @TeacherGender NVARCHAR(10),
+    @TeacherPhone NVARCHAR(20),
+    @TeacherEmail NVARCHAR(100)
+AS
+BEGIN
+    UPDATE Teachers
+    SET TeacherName = @TeacherName,
+        TeacherLastName = @TeacherLastName,
+        TeacherAge = @TeacherAge,
+        TeacherGender = @TeacherGender,
+        TeacherPhone = @TeacherPhone,
+        TeacherEmail = @TeacherEmail
+    WHERE TeacherId = @TeacherId;
+END;
+GO
+
+CREATE PROCEDURE spTeachers_Delete
+    @TeacherId INT
+AS
+BEGIN
+    DELETE FROM Teachers WHERE TeacherId = @TeacherId;
+END;
+GO
+---------------------
+-- Procedimiento para obtener todos los profesores
+ALTER PROCEDURE spTeachers_GetAll
+AS
+BEGIN
+    SELECT TeacherId, TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail
+    FROM Teachers;
+END;
+GO
+
+-- Procedimiento para obtener un profesor por su ID
+ALTER PROCEDURE spTeachers_GetById
+    @Id INT
+AS
+BEGIN
+    SELECT TeacherId, TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail
+    FROM Teachers
+    WHERE TeacherId = @Id;
+END;
+GO
+
+-- Procedimiento para insertar un nuevo profesor
+ALTER PROCEDURE spTeachers_Insert
+    @TeacherName VARCHAR(50),
+    @TeacherLastName VARCHAR(50),
+    @TeacherAge INT,
+    @TeacherGender CHAR(1),
+    @TeacherPhone VARCHAR(30),
+    @TeacherEmail NVARCHAR(75)
+AS
+BEGIN
+    INSERT INTO Teachers (TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail)
+    VALUES (@TeacherName, @TeacherLastName, @TeacherAge, @TeacherGender, @TeacherPhone, @TeacherEmail);
+END;
+GO
+
+-- Procedimiento para actualizar un profesor
+ALTER PROCEDURE spTeachers_Update
+    @TeacherId INT,
+    @TeacherName VARCHAR(50),
+    @TeacherLastName VARCHAR(50),
+    @TeacherAge INT,
+    @TeacherGender CHAR(1),
+    @TeacherPhone VARCHAR(30),
+    @TeacherEmail NVARCHAR(75)
+AS
+BEGIN
+    UPDATE Teachers
+    SET TeacherName = @TeacherName, TeacherLastName = @TeacherLastName,
+        TeacherAge = @TeacherAge, TeacherGender = @TeacherGender,
+        TeacherPhone = @TeacherPhone, TeacherEmail = @TeacherEmail
+    WHERE TeacherId = @TeacherId;
+END;
+GO
+
+-- Procedimiento para eliminar un profesor por su ID
+ALTER PROCEDURE spTeachers_Delete
+    @Id INT
+AS
+BEGIN
+    DELETE FROM Teachers
+    WHERE TeacherId = @Id;
+END;
+GO
+--------------------------------------------------
+
+
+-- Procedimiento almacenado para insertar un nuevo registro en la tabla Subjects
+CREATE PROCEDURE spSubject_Insert
+    @SubjectName NVARCHAR(100),
+    @SubjectInfo NVARCHAR(MAX),
+    @GradeId INT
+AS
+BEGIN
+    INSERT INTO Subjects (SubjectName, SubjectInfo, GradeId)
+    VALUES (@SubjectName, @SubjectInfo, @GradeId);
+    SELECT SCOPE_IDENTITY(); -- Retorna el ID del nuevo registro insertado
+END;
+GO
+
+-- Procedimiento almacenado para eliminar un registro de la tabla Subjects por su ID
+CREATE PROCEDURE spSubject_Delete
+    @SubjectId INT
+AS
+BEGIN
+    DELETE FROM Subjects
+    WHERE SubjectId = @SubjectId;
+END;
+GO
+
+-- Procedimiento almacenado para obtener todos los registros de la tabla Subjects
+CREATE PROCEDURE spSubject_GetAll
+AS
+BEGIN
+    SELECT * FROM Subjects;
+END;
+GO
+
+-- Procedimiento almacenado para obtener un registro de la tabla Subjects por su ID
+CREATE PROCEDURE spSubject_GetById
+    @SubjectId INT
+AS
+BEGIN
+    SELECT * FROM Subjects
+    WHERE SubjectId = @SubjectId;
+END;
+GO
+
+-- Procedimiento almacenado para actualizar un registro de la tabla Subjects por su ID
+CREATE PROCEDURE spSubject_Update
+    @SubjectId INT,
+    @SubjectName NVARCHAR(100),
+    @SubjectInfo NVARCHAR(MAX),
+    @GradeId INT
+AS
+BEGIN
+    UPDATE Subjects
+    SET SubjectName = @SubjectName,
+        SubjectInfo = @SubjectInfo,
+        GradeId = @GradeId
+    WHERE SubjectId = @SubjectId;
 END;
 GO
