@@ -466,14 +466,6 @@ BEGIN
 END;
 GO
 
-CREATE OR ALTER PROCEDURE spTeachers_GetById
-    @TeacherId INT
-AS
-BEGIN
-    SELECT * FROM Teachers WHERE TeacherId = @TeacherId;
-END;
-GO
-
 CREATE OR ALTER PROCEDURE spTeachers_Insert
     @TeacherName NVARCHAR(100),
     @TeacherLastName NVARCHAR(100),
@@ -516,72 +508,17 @@ BEGIN
     DELETE FROM Teachers WHERE TeacherId = @TeacherId;
 END;
 GO
----------------------
--- Procedimiento para obtener todos los profesores
-CREATE OR ALTER PROCEDURE spTeachers_GetAll
-AS
-BEGIN
-    SELECT TeacherId, TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail
-    FROM Teachers;
-END;
-GO
 
 -- Procedimiento para obtener un profesor por su ID
 CREATE OR ALTER PROCEDURE spTeachers_GetById
-    @Id INT
+    @TeacherId INT
 AS
 BEGIN
     SELECT TeacherId, TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail
     FROM Teachers
-    WHERE TeacherId = @Id;
-END;
-GO
-
--- Procedimiento para insertar un nuevo profesor
-CREATE OR ALTER PROCEDURE spTeachers_Insert
-    @TeacherName VARCHAR(50),
-    @TeacherLastName VARCHAR(50),
-    @TeacherAge INT,
-    @TeacherGender CHAR(1),
-    @TeacherPhone VARCHAR(30),
-    @TeacherEmail NVARCHAR(75)
-AS
-BEGIN
-    INSERT INTO Teachers (TeacherName, TeacherLastName, TeacherAge, TeacherGender, TeacherPhone, TeacherEmail)
-    VALUES (@TeacherName, @TeacherLastName, @TeacherAge, @TeacherGender, @TeacherPhone, @TeacherEmail);
-END;
-GO
-
--- Procedimiento para actualizar un profesor
-CREATE OR ALTER PROCEDURE spTeachers_Update
-    @TeacherId INT,
-    @TeacherName VARCHAR(50),
-    @TeacherLastName VARCHAR(50),
-    @TeacherAge INT,
-    @TeacherGender CHAR(1),
-    @TeacherPhone VARCHAR(30),
-    @TeacherEmail NVARCHAR(75)
-AS
-BEGIN
-    UPDATE Teachers
-    SET TeacherName = @TeacherName, TeacherLastName = @TeacherLastName,
-        TeacherAge = @TeacherAge, TeacherGender = @TeacherGender,
-        TeacherPhone = @TeacherPhone, TeacherEmail = @TeacherEmail
     WHERE TeacherId = @TeacherId;
 END;
 GO
-
--- Procedimiento para eliminar un profesor por su ID
-ALTER PROCEDURE spTeachers_Delete
-    @Id INT
-AS
-BEGIN
-    DELETE FROM Teachers
-    WHERE TeacherId = @Id;
-END;
-GO
---------------------------------------------------
-
 
 -- Procedimiento almacenado para insertar un nuevo registro en la tabla Subjects
 CREATE OR ALTER PROCEDURE spSubject_Insert

@@ -4,6 +4,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using DEMO_PuellaSchoolAPP.Validations;
+using Microsoft.Data.SqlClient;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
@@ -131,6 +132,11 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
                 TempData["message"] = "Datos eliminados correctamente.";
 
+                return RedirectToAction(nameof(Index));
+            }
+            catch (SqlException ex)
+            {
+                TempData["message"] = "No se puede eliminar el registro debido a restricciones de clave externa.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
