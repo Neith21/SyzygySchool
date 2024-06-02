@@ -1,5 +1,6 @@
 using DEMO_PuellaSchoolAPP.Data;
 using DEMO_PuellaSchoolAPP.Models;
+using DEMO_PuellaSchoolAPP.Repositories.Grades;
 using DEMO_PuellaSchoolAPP.Repositories.Logins;
 using DEMO_PuellaSchoolAPP.Repositories.RClassrooms;
 using DEMO_PuellaSchoolAPP.Repositories.Roles;
@@ -21,8 +22,7 @@ builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 builder.Services.AddScoped<IRolesRepository, RolesRepository>();
 builder.Services.AddScoped<ITeacherRepository, TeachersRepository>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
-
-
+builder.Services.AddScoped<IGradesRepository, GradesRepository>();
 
 //Validations
 builder.Services.AddScoped<IValidator<StudentModel>, StudentValidator>();
@@ -30,6 +30,7 @@ builder.Services.AddScoped<IValidator<TeacherModel>, TeacherValidator>();
 builder.Services.AddScoped<IValidator<ScheduleModel>, ScheduleValidator>();
 builder.Services.AddScoped<IValidator<RolModel>, RolValidator>();
 builder.Services.AddScoped<IValidator<LoginModel>, LoginValidator>();
+builder.Services.AddScoped<IValidator<GradeModel>, GradeValidator>();
 
 // login
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
