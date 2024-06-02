@@ -1,11 +1,11 @@
-﻿@model DEMO_PuellaSchoolAPP.Models.GradeModel
+﻿@model DEMO_PuellaSchoolAPP.Models.SectionModel
 
 @{
-    ViewData["Title"] = "Eliminar Grado";
+    ViewData["Title"] = "Eliminar Sección";
 }
 
 <div style="text-align: center;">
-    <h1>Eliminar Grado</h1>
+    <h1>Eliminar Sección</h1>
     <h3>¿Está seguro que desea eliminar?</h3>
 
     <div style="margin: 0 auto; width: fit-content;">
@@ -13,25 +13,33 @@
             <tbody>
                 <tr>
                     <th style="padding-bottom: 8px;">
-                        @Html.DisplayNameFor(model => model.GradeId)
+                        @Html.DisplayNameFor(model => model.SectionId)
                     </th>
                     <td style="padding: 0px 0px 8px 10px;">
-                        @Html.DisplayFor(model => model.GradeId)
+                        @Html.DisplayFor(model => model.SectionId)
                     </td>
                 </tr>
                 <tr>
                     <th style="padding-bottom: 8px;">
-                        @Html.DisplayNameFor(model => model.GradeName)
+                        @Html.DisplayNameFor(model => model.SectionName)
                     </th>
                     <td style="padding: 0px 0px 8px 10px;">
-                        @Html.DisplayFor(model => model.GradeName)
+                        @Html.DisplayFor(model => model.SectionName)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.SectionInfo)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.SectionInfo)
                     </td>
                 </tr>
             </tbody>
         </table>
 
         <form asp-action="Delete">
-            <input asp-for="GradeId" type="hidden" class="form-control" />
+            <input asp-for="SectionId" type="hidden" class="form-control" />
             <input type="submit" value="Eliminar" class="btn btn-danger mr-3" />
             <a asp-action="Index" class="btn btn-primary">Regresar al listado</a>
         </form>

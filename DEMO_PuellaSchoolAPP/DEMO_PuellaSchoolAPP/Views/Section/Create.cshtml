@@ -1,0 +1,53 @@
+﻿@model DEMO_PuellaSchoolAPP.Models.SectionModel
+
+@{
+    ViewData["Title"] = "Nueva Sección";
+}
+
+<h1 style="text-align:center">Nueva Sección</h1>
+
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create" onsubmit="return confirmAction();">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="SectionName" class="control-label">Nombre de la Sección</label>
+                    <input asp-for="SectionName" class="form-control" />
+                    <span asp-validation-for="SectionName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SectionInfo" class="control-label">Información de la Sección</label>
+                    <textarea asp-for="SectionInfo" class="form-control"></textarea>
+                    <span asp-validation-for="SectionInfo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-danger">Regresar al listado</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function confirmAction() {
+            if (confirm('¿Está seguro de agregar este registro?')) {
+                return true;
+            } else {
+                window.location.href = '@Url.Action("Index", "Section")';
+                return false;
+            }
+        }
+    </script>
+}

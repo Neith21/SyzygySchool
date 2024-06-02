@@ -1,0 +1,100 @@
+﻿@model IEnumerable<DEMO_PuellaSchoolAPP.Models.SectionModel>
+
+@{
+    ViewData["Title"] = "Secciones";
+}
+
+<h1 style="text-align:center">Listado de Secciones</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="row d-flex">
+                <div class="col-6">
+                    <div class="mb-3 mb-3">
+                        <a asp-action="Create" asp-controller="Section" class="btn btn-success">
+                            Nueva Sección
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-primary" role="alert">
+                    @TempData["message"]
+                </div>
+            }
+
+            <table class="table table-bordered table-striped table-responsive" id="sectionTable">
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Nombre</td>
+                        <td>Información</td>
+                        <td>Acciones</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sections in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(item => sections.SectionId)</td>
+                            <td>@Html.DisplayFor(item => sections.SectionName)</td>
+                            <td>@Html.DisplayFor(item => sections.SectionInfo)</td>
+                            <td>
+                                <a asp-controller="Section" asp-action="Edit" asp-route-id="@sections.SectionId" class="btn btn-primary">
+                                    <i class="fa fa-pencil-alt"></i>
+                                </a>
+                                <a asp-controller="Section" asp-action="Delete" asp-route-id="@sections.SectionId" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#sectionTable").DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 3,
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+        });
+    </script>
+}

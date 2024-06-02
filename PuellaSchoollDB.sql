@@ -846,3 +846,14 @@ BEGIN
 	SELECT * FROM Sections
 END
 GO
+
+CREATE OR ALTER PROC dbo.spClassrooms_GetByIdClass
+(@ClassId INT)
+AS
+BEGIN
+    SELECT ClassroomId, S.StudentName, C.ClassId, C.StudentId FROM Classrooms C INNER JOIN Students S ON S.StudentId = c.StudentId
+    INNER JOIN Classes Cl ON Cl.ClassId = C.ClassId
+    WHERE C.ClassId = @ClassId
+
+END
+GO
