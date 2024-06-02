@@ -674,3 +674,89 @@ BEGIN
     INSERT INTO Schedules (ScheduleInfo, ScheduleCreation, ScheduleStart, ScheduleEnd, ScheduleExpiration, SubjectId, TeacherId, ClassId)
     VALUES (@ScheduleInfo, @ScheduleCreation, @ScheduleStart, @ScheduleEnd, @ScheduleExpiration, @SubjectId, @TeacherId, @ClassId);
 END;
+GO
+
+
+---[Procesos almacenados para tabla Grades]---
+CREATE OR ALTER PROC dbo.spGrades_Insert --Insert
+	@GradeName VARCHAR(50)
+AS
+BEGIN
+	INSERT INTO Grades VALUES(@GradeName)
+END
+GO
+
+CREATE OR ALTER PROC dbo.spGrades_Update --Edit
+	@GradeId INT, 
+	@GradeName VARCHAR(50)
+AS
+BEGIN
+	UPDATE Grades SET GradeName = @GradeName WHERE GradeId = @GradeId
+END
+GO
+
+CREATE OR ALTER PROC dbo.spGrades_Delete --Delete
+	@GradeId INT
+AS
+BEGIN
+	DELETE FROM Grades WHERE GradeId = @GradeId
+END
+GO
+
+CREATE OR ALTER PROC dbo.spGrades_GetById --GetbyId
+	@GradeId INT
+AS
+BEGIN
+	SELECT GradeId, GradeName FROM Grades WHERE GradeId = @GradeId
+END
+GO
+
+CREATE OR ALTER PROC dbo.spGrades_GetAll --GetAll
+AS
+BEGIN
+	SELECT * FROM Grades
+END
+GO
+
+---[Procesos almacenados para tabla Section]---
+CREATE OR ALTER PROC dbo.spSections_Insert --Insert
+	@SectionName VARCHAR(50),
+	@SectionInfo VARCHAR(100)
+AS
+BEGIN
+	INSERT INTO Sections VALUES(@SectionName, @SectionInfo)
+END
+GO
+
+CREATE OR ALTER PROC dbo.spSections_Update --Edit
+	@SectionId INT, 
+	@SectionName VARCHAR(50),
+	@SectionInfo VARCHAR(100)
+AS
+BEGIN
+	UPDATE Sections SET SectionName = @SectionName, SectionInfo = @SectionInfo WHERE SectionId = @SectionId
+END
+GO
+
+CREATE OR ALTER PROC dbo.spSections_Delete --Delete
+	@SectionId INT
+AS
+BEGIN
+	DELETE FROM Sections WHERE SectionId = @SectionId
+END
+GO
+
+CREATE OR ALTER PROC dbo.spSections_GetById --GetbyId
+	@SectionId INT
+AS
+BEGIN
+	SELECT SectionId, SectionName, SectionInfo FROM Sections WHERE SectionId = @SectionId
+END
+GO
+
+CREATE OR ALTER PROC dbo.spSections_GetAll --GetAll
+AS
+BEGIN
+	SELECT * FROM Sections
+END
+GO
