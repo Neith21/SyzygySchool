@@ -1,0 +1,107 @@
+﻿@model DEMO_PuellaSchoolAPP.Models.ScheduleModel
+
+@{
+    ViewData["Title"] = "Nuevo Registro de Horario";
+}
+
+<h1 style="text-align:center">Nuevo Registro de Horario</h1>
+
+<hr />
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-primary" role="alert">
+        @TempData["message"]
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create" onsubmit="return confirmAction();">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="ScheduleInfo" class="control-label">Información</label>
+                    <input asp-for="ScheduleInfo" class="form-control" />
+                    <span asp-validation-for="ScheduleInfo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ScheduleCreation" class="form-label">Fecha de Creación</label>
+                    <input asp-for="ScheduleCreation" type="date" class="form-control" />
+                    <span asp-validation-for="ScheduleCreation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ScheduleStart" class="control-label">Inicio</label>
+                    <select asp-for="ScheduleStart" class="form-control">
+                        <option value="07:00:00">07:00</option>
+                        <option value="08:50:00">08:50</option>
+                        <option value="10:40:00">10:40</option>
+                    </select>
+                    <span asp-validation-for="ScheduleStart" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ScheduleEnd" class="control-label">Final</label>
+                    <select asp-for="ScheduleEnd" class="form-control">
+                        <option value="08:20:00">08:20</option>
+                        <option value="10:10:00">10:10</option>
+                        <option value="12:00:00">12:00</option>
+                    </select>
+                    <span asp-validation-for="ScheduleEnd" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ScheduleExpiration" class="form-label">Fecha de Expiración</label>
+                    <input asp-for="ScheduleExpiration" type="date" class="form-control" />
+                    <span asp-validation-for="ScheduleExpiration" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SubjectId" class="form-label">Asignatura</label>
+                    <select asp-for="SubjectId"
+                            asp-items="@ViewBag.Subjects"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="SubjectId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TeacherId" class="form-label">Docente</label>
+                    <select asp-for="TeacherId"
+                            asp-items="@ViewBag.Teachers"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="TeacherId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClassId" class="control-label">Clase ID</label>
+                    <input asp-for="ClassId" type="number" class="form-control" />
+                    <span asp-validation-for="ClassId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+
+                    <a asp-action="Index" class="btn btn-danger">Regresar al listado</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function confirmAction() {
+            if (confirm('¿Está seguro de agregar este registro?')) {
+                return true;
+            } else {
+                window.location.href = '@Url.Action("Index", "Schedule")';
+                return false;
+            }
+        }
+    </script>
+}

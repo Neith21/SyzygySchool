@@ -1,0 +1,112 @@
+﻿@model IEnumerable<DEMO_PuellaSchoolAPP.Models.ScheduleModel>
+
+@{
+	ViewData["Title"] = "Horarios";
+}
+
+<h1 style="text-align:center">Listado de Horarios</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="row d-flex">
+				<div class="col-6">
+					<div class="mb-3 mb-3">
+						<a asp-action="Create" asp-controller="Schedule" class="btn btn-success">
+							Nuevo Horario
+						</a>
+					</div>
+				</div>
+			</div>
+
+			@if (TempData["message"] != null)
+			{
+				<div class="alert alert-primary" role="alert">
+					@TempData["message"]
+				</div>
+			}
+
+			<table class="table table-bordered table-striped table-responsive" id="scheduleTable">
+				<thead>
+					<tr>
+						<td>ID</td>
+						<td>Información</td>
+						<td>Fecha de creación</td>
+						<td>Inicio</td>
+						<td>Final</td>
+						<td>Fecha de expiración</td>
+						<td>Asignatura</td>
+						<td>Docente</td>
+						<td>Clase ID</td>
+						<td>Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var schedule in Model)
+					{
+						<tr>
+							<td>@Html.DisplayFor(item => schedule.IdSchedule)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleInfo)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleCreation)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleStart)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleEnd)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleExpiration)</td>
+							<td>@schedule.Subject?.SubjectName</td>
+							<td>@schedule.Teacher?.TeacherName</td>
+							<td>@Html.DisplayFor(item => schedule.ClassId)</td>
+							<td>
+								<a asp-controller="Schedule" asp-action="Edit" asp-route-id="@schedule.IdSchedule" class="btn btn-primary">
+									<i class="fa fa-pencil-alt"></i>
+								</a>
+								<a asp-controller="Schedule" asp-action="Delete" asp-route-id="@schedule.IdSchedule" class="btn btn-danger">
+									<i class="fa fa-trash"></i>
+								</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#scheduleTable").DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'csv',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'pdf',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'excel',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					}
+				],
+				columnDefs: [
+					{
+						targets: 9,
+						orderable: false,
+						searchable: false
+					}
+				],
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+				}
+			});
+		});
+	</script>
+}
