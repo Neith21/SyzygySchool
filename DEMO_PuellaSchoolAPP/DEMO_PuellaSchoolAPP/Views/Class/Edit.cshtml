@@ -1,0 +1,76 @@
+﻿@model DEMO_PuellaSchoolAPP.Models.ClassModel
+
+@{
+    ViewData["Title"] = "Edición de Registro Clase";
+}
+
+<h1 style="text-align:center">Edición de Registro Clase</h1>
+
+<hr />
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-primary" role="alert">
+        @TempData["message"]
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Edit" onsubmit="return confirmAction();">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <input asp-for="ClassId" type="hidden" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClassInfo" class="control-label">Información</label>
+                    <input asp-for="ClassInfo" class="form-control" />
+                    <span asp-validation-for="ClassInfo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GradeId" class="form-label">Grado</label>
+                    <select asp-for="GradeId"
+                            asp-items="@ViewBag.Grades"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="GradeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SectionId" class="form-label">Sección</label>
+                    <select asp-for="SectionId"
+                            asp-items="@ViewBag.Sections"
+                            class="form-select">
+                        <option value="">Seleccione</option>
+                    </select>
+                    <span asp-validation-for="SectionId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Editar" class="btn btn-primary" />
+
+                    <a asp-action="Index" class="btn btn-danger">Regresar al listado</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function confirmAction() {
+            if (confirm('¿Está seguro de editar este registro?')) {
+                return true;
+            } else {
+                window.location.href = '@Url.Action("Index", "Class")';
+                return false;
+            }
+        }
+    </script>
+}

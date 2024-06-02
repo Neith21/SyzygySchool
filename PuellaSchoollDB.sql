@@ -798,7 +798,7 @@ CREATE OR ALTER PROC dbo.spClassrooms_GetByIdClass
 (@ClassId INT)
 AS
 BEGIN
-    SELECT ClassroomId, S.StudentName, C.ClassId, C.StudentId FROM Classrooms C INNER JOIN Students S ON S.StudentId = c.StudentId
+    SELECT ClassroomId, S.StudentName, CL.ClassInfo, C.ClassId, C.StudentId, CL.GradeId, CL.SectionId FROM Classrooms C INNER JOIN Students S ON S.StudentId = c.StudentId
     INNER JOIN Classes Cl ON Cl.ClassId = C.ClassId
     WHERE C.ClassId = @ClassId
 

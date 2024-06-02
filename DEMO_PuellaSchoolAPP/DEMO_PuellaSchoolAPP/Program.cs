@@ -1,5 +1,6 @@
 using DEMO_PuellaSchoolAPP.Data;
 using DEMO_PuellaSchoolAPP.Models;
+using DEMO_PuellaSchoolAPP.Repositories.Classes;
 using DEMO_PuellaSchoolAPP.Repositories.Grades;
 using DEMO_PuellaSchoolAPP.Repositories.Logins;
 using DEMO_PuellaSchoolAPP.Repositories.RClassrooms;
@@ -25,6 +26,7 @@ builder.Services.AddScoped<ITeacherRepository, TeachersRepository>();
 builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<IGradesRepository, GradesRepository>();
 builder.Services.AddScoped<ISectionsRepository, SectionsRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
 
 //Validations
 builder.Services.AddScoped<IValidator<StudentModel>, StudentValidator>();

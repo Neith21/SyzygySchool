@@ -15,9 +15,9 @@ namespace DEMO_PuellaSchoolAPP.Models
         [Required(ErrorMessage = "La sección es obligatoria")]
         public int SectionId { get; set; }
 
-        public GradeModel? Grades { get; set; }
+        public GradeModel? Grade { get; set; }
 
-        public SectionModel? Sections { get; set; }
+        public SectionModel? Section { get; set; }
     }
 
 }

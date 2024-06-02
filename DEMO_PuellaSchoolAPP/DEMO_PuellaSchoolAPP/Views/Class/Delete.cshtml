@@ -1,0 +1,55 @@
+﻿@model DEMO_PuellaSchoolAPP.Models.ClassModel
+
+@{
+    ViewData["Title"] = "Borrar Registro Clase";
+}
+
+<div style="text-align: center;">
+    <h1>Eliminar credenciales</h1>
+    <h3>¿Está seguro que desea eliminar?</h3>
+
+    <div style="margin: 0 auto; width: fit-content;">
+        <table style="text-align: justify; border-collapse: separate; border-spacing: 0 8px;">
+            <tbody>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.ClassId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.ClassId)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.ClassInfo)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.ClassInfo)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.GradeId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.GradeId)
+                    </td>
+                </tr>
+                <tr>
+                    <th style="padding-bottom: 8px;">
+                        @Html.DisplayNameFor(model => model.SectionId)
+                    </th>
+                    <td style="padding: 0px 0px 8px 10px;">
+                        @Html.DisplayFor(model => model.SectionId)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form asp-action="Delete">
+            <input asp-for="ClassId" type="hidden" class="form-control" />
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-primary">Regresar al listado</a>
+        </form>
+    </div>
+</div>
