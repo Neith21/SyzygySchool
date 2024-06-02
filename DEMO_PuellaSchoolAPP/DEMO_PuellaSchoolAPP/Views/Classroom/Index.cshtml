@@ -4,39 +4,95 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Aulas</h1>
+<h1 style="text-align:center">Listado de estudiantes en la clase</h1>
 
-<p>
-    <a asp-action="Create" asp-controller="Classroom" class="btn btn-success">
-        Agregar registro
-    </a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Clase N°
-            </th>
-            <th>
-                Estudiante
-            </th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassId)
-            </td>
-            <td>
-                @item.Students?.StudentName @item.Students?.StudentLastName
-            </td>
-            <td>
-                 <a class="btn btn-info mx-2" asp-action="Edit" asp-route-id="@item.ClassroomId">Editar</a>
-                 <a class="btn btn-danger mx-2" asp-action="Delete" asp-route-id="@item.ClassroomId">Borrar</a>
-            </td>
-        </tr>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="row d-flex">
+				<div class="col-6">
+					<div class="mb-3 mb-3">
+						<a asp-action="Create" asp-controller="Classroom" class="btn btn-success">
+							Registrar nuevo estudiante a la clase.
+						</a>
+					</div>
+				</div>
+			</div>
+
+			@if (TempData["message"] != null)
+			{
+				<div class="alert alert-primary" role="alert">
+					@TempData["message"]
+				</div>
+			}
+
+			<table class="table table-bordered table-striped table-responsive" id="classroomTable">
+				<thead>
+					<tr>
+						<td>Clase N°</td>
+						<td>Estudiante</td>
+						<td>Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var classroom in Model)
+					{
+						<tr>
+							<td>@classroom.ClassId</td>
+							<td>@classroom.Students?.StudentName</td>
+							<td>
+								<a asp-controller="Classroom" asp-action="Edit" asp-route-id="@classroom.ClassroomId" class="btn btn-primary">
+									<i class="fa fa-pencil-alt"></i>
+								</a>
+								<a asp-controller="Classroom" asp-action="Delete" asp-route-id="@classroom.ClassroomId" class="btn btn-danger">
+									<i class="fa fa-trash"></i>
+								</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#classroomTable").DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'csv',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'pdf',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'excel',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					}
+				],
+				columnDefs: [
+					{
+						targets: 2,
+						orderable: false,
+						searchable: false
+					}
+				],
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+				}
+			});
+		});
+	</script>
 }
-    </tbody>
-</table>

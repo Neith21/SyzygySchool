@@ -30,17 +30,24 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RClassrooms
         public async Task EditAsync(ClassroomModel classrooms)
         {
             await _dataAccess.SaveDataAsync(
-                "dbo.spClasrooms_Update",
-                classrooms
-                );
+                "dbo.spClassrooms_Update",
+				new { ClassroomId = classrooms.ClassroomId, ClassId = classrooms.ClassId, StudentId = classrooms.StudentId }
+				);
         }
 
         public async Task<IEnumerable<ClassroomModel>> GetAllAsync()
         {
-            return await _dataAccess.GetDataAsync<ClassroomModel, dynamic>(
+           var classrooms = await _dataAccess.GetDataClassroomsForeignAsync<ClassroomModel, StudentModel, dynamic>(
                 "dbo.spClassrooms_GetAll",
-                new { }
-                );
+                new { },
+                (classroom, student) =>
+                {
+                    classroom.Students = student;
+                    return classroom;
+                },
+                splitOn: "StudentName"
+            );
+            return classrooms;
         }
 
         public async Task<IEnumerable<StudentModel>> GetAllStudents()

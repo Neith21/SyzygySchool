@@ -19,7 +19,7 @@
             <div class="form-group">
                 <label asp-for="StudentId" class="control-label">Estudiante</label>
                 <select asp-for="StudentId"
-                        asp-items="@ViewBag.TheStudent"
+                        asp-items="@ViewBag.Students"
                         class="form-select">
                     <option value="">Seleccione</option>
                 </select>
@@ -32,5 +32,17 @@
     </div>
 </div>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function confirmAction() {
+            if (confirm('¿Está seguro de agregar este registro?')) {
+                return true;
+            } else {
+                window.location.href = '@Url.Action("Index", "Classroom")';
+                return false;
+            }
+        }
+    </script>
 }
