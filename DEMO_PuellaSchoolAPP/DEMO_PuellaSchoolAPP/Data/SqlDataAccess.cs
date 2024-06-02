@@ -39,7 +39,7 @@ namespace DEMO_PuellaSchoolAPP.Data
                 commandType: CommandType.StoredProcedure);
         }
 
-		public async Task<IEnumerable<T>> GetDataForeignAsync<T, U, V, P>(
+		public async Task<IEnumerable<T>> GetData1Async<T, U, V, P>(
 		string storedProcedure,
 		P parameters,
 		Func<T, U, V, T>? map = null,
@@ -66,10 +66,10 @@ namespace DEMO_PuellaSchoolAPP.Data
 			}
 		}
 
-        public async Task<IEnumerable<T>> GetDataClassroomsForeignAsync<T, U, P>(
+        public async Task<IEnumerable<T>> GetData2Async<T, U, V, W, P>(
         string storedProcedure,
         P parameters,
-        Func<T, U, T>? map = null,
+        Func<T, U, V, W, T>? map = null,
         string connection = "default",
         string splitOn = "Id")
         {
@@ -84,7 +84,7 @@ namespace DEMO_PuellaSchoolAPP.Data
             }
             else
             {
-                return await dbConnection.QueryAsync<T, U, T>(
+                return await dbConnection.QueryAsync<T, U, V, W, T>(
                     storedProcedure,
                     map,
                     parameters,

@@ -8,6 +8,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RClassrooms
         Task DeleteAsync(int id);
         Task EditAsync(ClassroomModel classrooms);
         Task<IEnumerable<ClassroomModel>> GetAllAsync();
+        Task<IEnumerable<ClassModel>> GetAllClassAsync();
         Task<IEnumerable<StudentModel>> GetAllStudents();
         Task<ClassroomModel?> GetByIdAsync(int id);
     }

@@ -14,7 +14,7 @@ namespace DEMO_PuellaSchoolAPP.Models
 
         public StudentModel? Students { get; set; }
 
-        public ClassModel? Classes { get; set; }
+        public ClassModel? Class { get; set; }
 
     }
 }

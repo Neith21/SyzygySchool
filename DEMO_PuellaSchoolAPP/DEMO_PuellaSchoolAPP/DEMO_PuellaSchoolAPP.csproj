@@ -56,6 +56,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Classroom\Create.cshtml" />
+    <None Include="Views\Classroom\Delete.cshtml" />
+    <None Include="Views\Classroom\Edit.cshtml" />
+    <None Include="Views\Classroom\Index.cshtml" />
     <None Include="Views\Login\Login.cshtml" />
     <None Include="Views\Login\RestorePassword.cshtml" />
     <None Include="Views\Schedule\Create.cshtml" />

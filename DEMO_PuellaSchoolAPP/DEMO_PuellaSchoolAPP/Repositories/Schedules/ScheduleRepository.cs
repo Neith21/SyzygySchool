@@ -15,14 +15,13 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Schedules
         public async Task AddAsync(ScheduleModel schedule)
         {
             await _dataAccess.SaveDataAsync(
-                "dbo.spSchedule_Insert",
+                "dbo.spSchedules_Insert",
                 new
                 {
                     schedule.ScheduleInfo,
-                    schedule.ScheduleCreation,
+                    schedule.ScheduleDay,
                     schedule.ScheduleStart,
                     schedule.ScheduleEnd,
-                    schedule.ScheduleExpiration,
                     schedule.SubjectId,
                     schedule.TeacherId,
                     schedule.ClassId
@@ -33,7 +32,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Schedules
         {
             await _dataAccess.SaveDataAsync(
                 "dbo.spSchedules_Delete",
-                new { ScheduleId = id }
+                new { IdSchedule = id }
             );
         }
 
@@ -41,22 +40,32 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Schedules
         {
             await _dataAccess.SaveDataAsync(
                 "dbo.spSchedules_Update",
-                schedule
-            );
+                new
+                {
+                    schedule.IdSchedule,
+                    schedule.ScheduleInfo,
+                    schedule.ScheduleDay,
+                    schedule.ScheduleStart,
+                    schedule.ScheduleEnd,
+                    schedule.SubjectId,
+                    schedule.TeacherId,
+                    schedule.ClassId
+                });
         }
 
         public async Task<IEnumerable<ScheduleModel>> GetAllAsync()
         {
-            var schedules = await _dataAccess.GetDataForeignAsync<ScheduleModel, SubjectModel, TeacherModel, dynamic>(
+            var schedules = await _dataAccess.GetData2Async<ScheduleModel, SubjectModel, TeacherModel, ClassModel, dynamic>(
                 "dbo.spSchedules_GetAll",
                 new { },
-                (schedule, subject, teacher) =>
+                (schedule, subject, teacher, classs) =>
                 {
                     schedule.Subject = subject;
                     schedule.Teacher = teacher;
+                    schedule.Class = classs;
                     return schedule;
                 },
-                splitOn: "SubjectName,TeacherName"
+                splitOn: "SubjectName,TeacherName,ClassInfo"
             );
 
             return schedules;
@@ -66,7 +75,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Schedules
         {
             var schedule = await _dataAccess.GetDataAsync<ScheduleModel, dynamic>(
                 "dbo.spSchedules_GetById",
-                new { ScheduleId = id }
+                new { IdSchedule = id }
             );
 
             return schedule.FirstOrDefault();
@@ -84,6 +93,14 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Schedules
         {
             return await _dataAccess.GetDataAsync<TeacherModel, dynamic>(
 				"dbo.spTeachers_GetAll",
+                new { }
+            );
+        }
+
+        public async Task<IEnumerable<ClassModel>> GetAllClassAsync()
+        {
+            return await _dataAccess.GetDataAsync<ClassModel, dynamic>(
+                "dbo.spClasses_GetAll",
                 new { }
             );
         }

@@ -6,6 +6,9 @@ namespace DEMO_PuellaSchoolAPP.Models
     {
         public int ClassId { get; set; }
 
+        [Required(ErrorMessage = "La información de la clase es obligatoria")]
+        public string ClassInfo { get; set; }
+
         [Required(ErrorMessage = "El grado es obligatorio")]
         public int GradeId { get; set; }
 
@@ -16,4 +19,5 @@ namespace DEMO_PuellaSchoolAPP.Models
 
         public SectionModel? Sections { get; set; }
     }
+
 }

@@ -14,6 +14,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
         private SelectList _subjectList;
         private SelectList _teacherList;
+        private SelectList _classList;
 
         public ScheduleController(IScheduleRepository scheduleRepository)
         {
@@ -37,6 +38,12 @@ namespace DEMO_PuellaSchoolAPP.Controllers
                 nameof(TeacherModel.TeacherId),
                 nameof(TeacherModel.TeacherName)
             );
+            var classes = await _scheduleRepository.GetAllClassAsync();
+            _classList = new SelectList(
+                classes,
+                nameof(ClassModel.ClassId),
+                nameof(ClassModel.ClassInfo)
+            );
         }
 
         public async Task<ActionResult> Index()
@@ -51,6 +58,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 		{
             ViewBag.Subjects = _subjectList;
             ViewBag.Teachers = _teacherList;
+            ViewBag.Classes = _classList;
 
 			return View();
 		}
@@ -73,6 +81,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
                 ViewBag.Subjects = _subjectList;
                 ViewBag.Teachers = _teacherList;
+                ViewBag.Classes = _classList;
 
                 return View(schedule);
 			}
@@ -92,16 +101,22 @@ namespace DEMO_PuellaSchoolAPP.Controllers
                 nameof(SubjectModel.SubjectId),
                 nameof(SubjectModel.SubjectName)
             );
-
             var teachers = await _scheduleRepository.GetAllTeacherAsync();
             _teacherList = new SelectList(
                 teachers,
                 nameof(TeacherModel.TeacherId),
                 nameof(TeacherModel.TeacherName)
             );
+            var classes = await _scheduleRepository.GetAllClassAsync();
+            _classList = new SelectList(
+                classes,
+                nameof(ClassModel.ClassId),
+                nameof(ClassModel.ClassInfo)
+            );
 
             ViewBag.Subjects = _subjectList;
             ViewBag.Teachers = _teacherList;
+            ViewBag.Classes = _classList;
 
             return View(schedules);
         }
@@ -124,6 +139,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
                 ViewBag.Subjects = _subjectList;
                 ViewBag.Teachers = _teacherList;
+                ViewBag.Classes = _classList;
 
                 return View(schedule);
             }

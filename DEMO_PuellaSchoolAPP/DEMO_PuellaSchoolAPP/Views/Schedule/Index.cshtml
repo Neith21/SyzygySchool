@@ -39,7 +39,7 @@
 						<td>Fecha de expiración</td>
 						<td>Asignatura</td>
 						<td>Docente</td>
-						<td>Clase ID</td>
+						<td>Clase</td>
 						<td>Acciones</td>
 					</tr>
 				</thead>
@@ -56,7 +56,7 @@
 							<td>@Html.DisplayFor(item => schedule.ScheduleExpiration)</td>
 							<td>@schedule.Subject?.SubjectName</td>
 							<td>@schedule.Teacher?.TeacherName</td>
-							<td>@Html.DisplayFor(item => schedule.ClassId)</td>
+							<td>@schedule.Class?.ClassInfo</td>
 							<td>
 								<a asp-controller="Schedule" asp-action="Edit" asp-route-id="@schedule.IdSchedule" class="btn btn-primary">
 									<i class="fa fa-pencil-alt"></i>

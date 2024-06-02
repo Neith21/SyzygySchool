@@ -10,7 +10,9 @@ namespace DEMO_PuellaSchoolAPP.Controllers
     public class ClassroomController : Controller
     {
         private readonly IClassroomsRepository _classroomsRepository;
+
         private SelectList _studentsList;
+        private SelectList _classList;
 
         public ClassroomController(IClassroomsRepository classroomsRepository)
         {
@@ -26,6 +28,13 @@ namespace DEMO_PuellaSchoolAPP.Controllers
                 nameof(StudentModel.StudentId),
                 nameof(StudentModel.StudentName)
             );
+            var classes = await _classroomsRepository.GetAllClassAsync();
+            _classList = new SelectList(
+                classes,
+                nameof(ClassModel.ClassId),
+                nameof(ClassModel.ClassInfo)
+            );
+
         }
 
         public async Task<ActionResult> Index()
@@ -39,6 +48,8 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         public ActionResult Create()
         {
             ViewBag.Students = _studentsList;
+            ViewBag.Classes = _classList;
+
             return View();
         }
 
@@ -58,6 +69,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
                 TempData["message"] = ex.Message;
 
                 ViewBag.Students = _studentsList;
+                ViewBag.Classes = _classList;
 
                 return View(classrooms);
             }
@@ -77,7 +89,15 @@ namespace DEMO_PuellaSchoolAPP.Controllers
                 nameof(StudentModel.StudentId),
                 nameof(StudentModel.StudentName)
             );
+            var classes = await _classroomsRepository.GetAllClassAsync();
+            _classList = new SelectList(
+                classes,
+                nameof(ClassModel.ClassId),
+                nameof(ClassModel.ClassInfo)
+            );
+
             ViewBag.Students = _studentsList;
+            ViewBag.Classes = _classList;
 
             return View(classrooms);
         }
@@ -97,6 +117,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
             {
                 TempData["message"] = ex.Message;
                 ViewBag.Students = _studentsList;
+                ViewBag.Classes = _classList;
                 return View(classrooms);
             }
         }

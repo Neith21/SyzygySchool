@@ -37,15 +37,16 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RClassrooms
 
         public async Task<IEnumerable<ClassroomModel>> GetAllAsync()
         {
-           var classrooms = await _dataAccess.GetDataClassroomsForeignAsync<ClassroomModel, StudentModel, dynamic>(
+           var classrooms = await _dataAccess.GetData1Async<ClassroomModel, StudentModel, ClassModel, dynamic>(
                 "dbo.spClassrooms_GetAll",
                 new { },
-                (classroom, student) =>
+                (classroom, student, classs) =>
                 {
                     classroom.Students = student;
+                    classroom.Class = classs;
                     return classroom;
                 },
-                splitOn: "StudentName"
+                splitOn: "StudentName,ClassInfo"
             );
             return classrooms;
         }
@@ -66,6 +67,14 @@ namespace DEMO_PuellaSchoolAPP.Repositories.RClassrooms
                 );
 
             return classroom.FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<ClassModel>> GetAllClassAsync()
+        {
+            return await _dataAccess.GetDataAsync<ClassModel, dynamic>(
+                "dbo.spClasses_GetAll",
+                new { }
+            );
         }
     }
 }

@@ -39,7 +39,7 @@
 					@foreach (var classroom in Model)
 					{
 						<tr>
-							<td>@classroom.ClassId</td>
+							<td>@classroom.Class?.ClassInfo</td>
 							<td>@classroom.Students?.StudentName</td>
 							<td>
 								<a asp-controller="Classroom" asp-action="Edit" asp-route-id="@classroom.ClassroomId" class="btn btn-primary">

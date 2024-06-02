@@ -29,6 +29,7 @@ GO
 
 CREATE TABLE Classes(
     ClassId INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+	ClassInfo VARCHAR(100) NOT NULL,
     GradeId INT NOT NULL,
     SectionId INT NOT NULL,
     
@@ -180,12 +181,13 @@ VALUES
 GO
 
 -- Insertando registros en la tabla Classes
-INSERT INTO Classes (GradeId, SectionId)
+INSERT INTO Classes (ClassInfo, GradeId, SectionId)
 VALUES
-(1, 1),
-(2, 2),
-(3, 3);
+('Math Class - Grade 1 A', 1, 1),
+('Science Class - Grade 2 B', 2, 2),
+('History Class - Grade 3 C', 3, 3);
 GO
+
 
 -- Insertando registros en la tabla Classrooms
 INSERT INTO Classrooms (ClassId, StudentId)
@@ -327,7 +329,11 @@ GO
 CREATE OR ALTER PROC dbo.spClassrooms_GetAll 
 AS
 BEGIN
-	SELECT ClassroomId, (S.StudentName + ' ' + S.StudentLastName ) AS StudentName, ClassId, C.StudentId FROM Classrooms C INNER JOIN Students S ON C.StudentID = S.StudentID
+	SELECT ClassroomId, (S.StudentName + ' ' + S.StudentLastName ) AS StudentName, CL.ClassInfo, CL.ClassId, C.StudentId FROM Classrooms C
+	INNER JOIN
+		Students S ON C.StudentID = S.StudentID
+	INNER JOIN
+		Classes CL ON C.ClassId = CL.ClassId
 END
 GO
 
@@ -652,13 +658,17 @@ BEGIN
         sc.SubjectId,
         s.SubjectName,
         sc.TeacherId,
-        t.TeacherName
+        t.TeacherName,
+		sc.ClassId,
+		c.ClassInfo
     FROM 
         Schedules sc
     INNER JOIN 
         Subjects s ON sc.SubjectId = s.SubjectId
     INNER JOIN 
         Teachers t ON sc.TeacherId = t.TeacherId
+	INNER JOIN
+		Classes c ON sc.ClassId = c.ClassId;
 END;
 GO
 
@@ -856,4 +866,92 @@ BEGIN
     WHERE C.ClassId = @ClassId
 
 END
+GO
+
+---[Procesos almacenados para tabla Classes]---
+CREATE OR ALTER PROCEDURE dbo.spClasses_GetAll
+AS
+BEGIN
+    SELECT 
+        c.ClassId,
+        c.ClassInfo,
+        c.GradeId,
+        g.GradeName,
+        c.SectionId,
+        s.SectionName
+    FROM 
+        Classes c
+    INNER JOIN 
+        Grades g ON c.GradeId = g.GradeId
+    INNER JOIN 
+        Sections s ON c.SectionId = s.SectionId
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spClasses_Insert
+(
+    @ClassInfo VARCHAR(100),
+    @GradeId INT,
+    @SectionId INT
+)
+AS
+BEGIN
+    INSERT INTO Classes
+    (
+        ClassInfo,
+        GradeId,
+        SectionId
+    )
+    VALUES
+    (
+        @ClassInfo,
+        @GradeId,
+        @SectionId
+    )
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spClasses_Update
+(
+    @ClassId INT,
+    @ClassInfo VARCHAR(100),
+    @GradeId INT,
+    @SectionId INT
+)
+AS
+BEGIN
+    UPDATE Classes
+    SET 
+        ClassInfo = @ClassInfo,
+        GradeId = @GradeId,
+        SectionId = @SectionId
+    WHERE ClassId = @ClassId
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spClasses_Delete
+(
+    @ClassId INT
+)
+AS
+BEGIN
+    DELETE FROM Classes
+    WHERE ClassId = @ClassId
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.spClasses_GetById
+(
+    @ClassId INT
+)
+AS
+BEGIN
+    SELECT 
+        ClassId,
+        ClassInfo,
+        GradeId,
+        SectionId
+    FROM Classes
+    WHERE ClassId = @ClassId
+END;
 GO

@@ -8,6 +8,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Schedules
         Task DeleteAsync(int id);
         Task EditAsync(ScheduleModel schedule);
         Task<IEnumerable<ScheduleModel>> GetAllAsync();
+        Task<IEnumerable<ClassModel>> GetAllClassAsync();
         Task<IEnumerable<SubjectModel>> GetAllSubjectAsync();
         Task<IEnumerable<TeacherModel>> GetAllTeacherAsync();
         Task<ScheduleModel?> GetByIdAsync(int id);
