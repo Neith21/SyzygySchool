@@ -162,8 +162,9 @@ namespace DEMO_PuellaSchoolAPP.Controllers
                 credential.Teacher = teachers.FirstOrDefault(t => t.TeacherId == credential.TeacherId);
                 List<Claim> claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.Name, credential.Teacher.TeacherName),
-                    new Claim(ClaimTypes.Role, credential.Roles.RoleName)
+                    new Claim(ClaimTypes.Name, credential.Teacher.TeacherName + " " + credential.Teacher.TeacherLastName),
+                    new Claim(ClaimTypes.Role, credential.Roles.RoleName),
+                    new Claim(ClaimTypes.Email, credential.Teacher.TeacherEmail)
                 };
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 AuthenticationProperties properties = new AuthenticationProperties()

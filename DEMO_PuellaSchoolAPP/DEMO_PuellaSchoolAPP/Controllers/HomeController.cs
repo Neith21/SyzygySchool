@@ -2,6 +2,7 @@ using DEMO_PuellaSchoolAPP.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
@@ -17,6 +18,10 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
         public IActionResult Index()
         {
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            ViewBag.UserName = userName;
+            ViewBag.Email = email;
             return View();
         }
 
