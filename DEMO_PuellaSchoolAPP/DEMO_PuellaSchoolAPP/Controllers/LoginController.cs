@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.AspNetCore.Authorization;
+using DEMO_PuellaSchoolAPP.Validations;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
@@ -28,10 +29,113 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         }
 
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        {
+            var logins = await _loginRepository.GetAllAsync();
+
+            return View(logins);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Create()
         {
             return View();
         }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(LoginModel loginModel)
+        {
+            try
+            {
+
+                await _loginRepository.AddAsync(loginModel);
+
+                TempData["message"] = "Datos guardados correctamente.";
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return View(loginModel);
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            var login = await _loginRepository.GetByIdAsync(id);
+
+            if (login == null)
+            {
+                return NotFound();
+            }
+
+            return View(login);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(LoginModel loginModel)
+        {
+            try
+            {
+
+                await _loginRepository.EditAsync(loginModel);
+
+                TempData["message"] = "Datos editados correctamente.";
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return View(loginModel);
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var login = await _loginRepository.GetByIdAsync(id);
+
+            if (login == null)
+            {
+                return NotFound();
+            }
+
+            return View(login);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(LoginModel loginModel)
+        {
+            try
+            {
+                await _loginRepository.DeleteAsync(loginModel.LoginId);
+
+                TempData["message"] = "Datos eliminados correctamente.";
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = ex.Message;
+
+                return View();
+            }
+        }
+
 
         public ActionResult Login()
         {

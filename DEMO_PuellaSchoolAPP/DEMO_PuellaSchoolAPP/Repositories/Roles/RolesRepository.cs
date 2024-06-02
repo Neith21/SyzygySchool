@@ -12,17 +12,17 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Roles
             _dataAccess = dataAccess;
         }
 
-        public async Task<IEnumerable<RolesModel>> GetAllAsync()
+        public async Task<IEnumerable<RolModel>> GetAllAsync()
         {
-            return await _dataAccess.GetDataAsync<RolesModel, dynamic>(
+            return await _dataAccess.GetDataAsync<RolModel, dynamic>(
                 "dbo.spRoles_GetAll",
                 new { }
                 );
         }
 
-        public async Task<RolesModel?> GetByIdAsync(int id)
+        public async Task<RolModel?> GetByIdAsync(int id)
         {
-            var RolesModel = await _dataAccess.GetDataAsync<RolesModel, dynamic>(
+            var RolesModel = await _dataAccess.GetDataAsync<RolModel, dynamic>(
                 "dbo.spRoles_GetById",
                 new { RoleId = id }
                 );
@@ -30,14 +30,14 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Roles
             return RolesModel.FirstOrDefault();
         }
 
-        public async Task AddAsync(RolesModel RolesModel)
+        public async Task AddAsync(RolModel RolesModel)
         {
             await _dataAccess.SaveDataAsync(
                 "dbo.spRoles_Insert",
                 new { RolesModel.RoleName, RolesModel.RoleInfo });
         }
 
-        public async Task EditAsync(RolesModel RolesModel)
+        public async Task EditAsync(RolModel RolesModel)
         {
             await _dataAccess.SaveDataAsync(
                 "dbo.spRoles_Update",

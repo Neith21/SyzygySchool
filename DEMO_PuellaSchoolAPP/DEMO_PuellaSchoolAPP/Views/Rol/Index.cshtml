@@ -1,0 +1,98 @@
+﻿@model IEnumerable<DEMO_PuellaSchoolAPP.Models.RolModel>
+
+@{
+    ViewData["Title"] = "Inicio Roles";
+}
+
+<h1 style="text-align:center">Listado de Roles</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row d-flex">
+				<div class="col-6">
+					<div class="mb-3 mb-3">
+						<a asp-action="Create" asp-controller="Rol" class="btn btn-success">
+							Nuevo Estudiante
+						</a>
+					</div>
+				</div>
+			</div>
+
+			@if (TempData["message"] != null)
+			{
+				<div class="alert alert-primary" role="alert">
+					@TempData["message"]
+				</div>
+			}
+
+			<table class="table table-bordered table-striped table-responsive" id="rolTable">
+				<thead>
+					<tr>
+						<td>ID</td>
+						<td>Nombre del Rol</td>
+						<td>Informacion del Rol</td>
+						<td>Acciones</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var roles in Model)
+					{
+						<tr>
+							<td>@Html.DisplayFor(item => roles.RoleId)</td>
+							<td>@Html.DisplayFor(item => roles.RoleName)</td>
+							<td>@Html.DisplayFor(item => roles.RoleInfo)</td>
+							<td>
+								<a asp-controller="Rol" asp-action="Edit" asp-route-id="@roles.RoleId" class="btn btn-primary">
+									<i class="fa fa-pencil-alt"></i>
+								</a>
+								<a asp-controller="Rol" asp-action="Delete" asp-route-id="@roles.RoleId" class="btn btn-danger">
+									<i class="fa fa-trash"></i>
+								</a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#rolTable").DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'csv',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'pdf',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'excel',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					}
+				],
+				columnDefs: [
+					{
+						targets: 3,
+						orderable: false,
+						searchable: false
+					}
+				],
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+				}
+			});
+		});
+	</script>
+}

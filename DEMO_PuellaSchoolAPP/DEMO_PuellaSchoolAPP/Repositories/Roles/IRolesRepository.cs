@@ -4,10 +4,10 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Roles
 {
     public interface IRolesRepository
     {
-        Task AddAsync(RolesModel RolesModel);
+        Task AddAsync(RolModel RolesModel);
         Task DeleteAsync(int id);
-        Task EditAsync(RolesModel RolesModel);
-        Task<IEnumerable<RolesModel>> GetAllAsync();
-        Task<RolesModel?> GetByIdAsync(int id);
+        Task EditAsync(RolModel RolesModel);
+        Task<IEnumerable<RolModel>> GetAllAsync();
+        Task<RolModel?> GetByIdAsync(int id);
     }
 }
