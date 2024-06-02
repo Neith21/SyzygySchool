@@ -76,13 +76,6 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         {
             try
             {
-                FluentValidation.Results.ValidationResult validationResult = await _validator.ValidateAsync(loginModel);
-
-                if (!validationResult.IsValid)
-                {
-                    validationResult.AddToModelState(ModelState);
-                    return View(loginModel);
-                }
 
                 await _loginRepository.AddAsync(loginModel);
 
