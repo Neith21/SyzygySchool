@@ -18,10 +18,6 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
         public IActionResult Index()
         {
-            var userName = User.FindFirstValue(ClaimTypes.Name);
-            var email = User.FindFirstValue(ClaimTypes.Email);
-            ViewBag.UserName = userName;
-            ViewBag.Email = email;
             return View();
         }
 

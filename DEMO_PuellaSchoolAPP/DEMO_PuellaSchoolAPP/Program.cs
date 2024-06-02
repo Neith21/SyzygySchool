@@ -28,6 +28,8 @@ builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<IValidator<StudentModel>, StudentValidator>();
 builder.Services.AddScoped<IValidator<TeacherModel>, TeacherValidator>();
 builder.Services.AddScoped<IValidator<ScheduleModel>, ScheduleValidator>();
+builder.Services.AddScoped<IValidator<RolModel>, RolValidator>();
+builder.Services.AddScoped<IValidator<LoginModel>, LoginValidator>();
 
 // login
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -38,6 +40,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
         options.SlidingExpiration = true;
     });
+
+//FilterAction
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<FilterActions>();
+});
 
 var app = builder.Build();
 

@@ -20,12 +20,13 @@ using Microsoft.AspNetCore.Mvc;
 
             public async Task<ActionResult> Index()
             {
+
                 var clasrooms = await _classroomsRepository.GetAllAsync();
-                _studentsList = new SelectList(
-                                    await _classroomsRepository.GetAllStudents(),
-                                    nameof(StudentModel.StudentId),
-                                    nameof(StudentModel.StudentName)
-                    );
+                    _studentsList = new SelectList(
+                                        await _classroomsRepository.GetAllStudents(),
+                                        nameof(StudentModel.StudentId),
+                                        nameof(StudentModel.StudentName)
+                        );
 
                 return View(clasrooms);
             }

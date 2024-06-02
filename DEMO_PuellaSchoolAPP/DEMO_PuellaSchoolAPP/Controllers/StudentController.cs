@@ -5,6 +5,7 @@ using DEMO_PuellaSchoolAPP.Validations;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
@@ -22,6 +23,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
         public async Task<ActionResult> Index()
         {
+
             var students = await _studentsRepository.GetAllAsync();
 
             return View(students);

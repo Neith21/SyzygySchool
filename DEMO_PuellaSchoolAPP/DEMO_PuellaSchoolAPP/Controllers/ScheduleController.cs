@@ -5,6 +5,7 @@ using DEMO_PuellaSchoolAPP.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
@@ -43,6 +44,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
         public async Task<ActionResult> Index()
         {
+
             var schedules = await _scheduleRepository.GetAllAsync();
 
             return View(schedules);

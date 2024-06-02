@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using DEMO_PuellaSchoolAPP.Repositories.RTeachers;
+using FluentValidation;
+using DEMO_PuellaSchoolAPP.Validations;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
@@ -15,19 +17,21 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         private readonly ILoginRepository _loginRepository;
         private readonly IRolesRepository _rolesRepository;
         private readonly ITeacherRepository _teacherRepository;
-        //private readonly IValidator<LoginModel> _validator;
+        private readonly IValidator<LoginModel> _validator;
 
-        public LoginController(ILoginRepository loginRepository, IRolesRepository rolesRepository, ITeacherRepository teacherRepository/*, IValidator<LoginModel> validator*/)
+        public LoginController(ILoginRepository loginRepository, IRolesRepository rolesRepository, 
+                               ITeacherRepository teacherRepository, IValidator<LoginModel> validator)
         {
             _loginRepository = loginRepository;
             _rolesRepository = rolesRepository;
             _teacherRepository = teacherRepository;
-            /*_validator = validator;*/
+            _validator = validator;
         }
 
         [Authorize]
         public async Task<IActionResult> Index()
         {
+
             var logins = await _loginRepository.GetAllAsync();
 
             return View(logins);
@@ -47,6 +51,13 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         {
             try
             {
+                FluentValidation.Results.ValidationResult validationResult = await _validator.ValidateAsync(loginModel);
+
+                if (!validationResult.IsValid)
+                {
+                    validationResult.AddToModelState(ModelState);
+                    return View(loginModel);
+                }
 
                 await _loginRepository.AddAsync(loginModel);
 
@@ -83,6 +94,13 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         {
             try
             {
+                FluentValidation.Results.ValidationResult validationResult = await _validator.ValidateAsync(loginModel);
+
+                if (!validationResult.IsValid)
+                {
+                    validationResult.AddToModelState(ModelState);
+                    return View(loginModel);
+                }
 
                 await _loginRepository.EditAsync(loginModel);
 
@@ -148,6 +166,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel loginModel)
         {
+
             var credentialsList = await _loginRepository.GetAllAsync();
             var credential = credentialsList.FirstOrDefault(c => c.LoginUser == loginModel.LoginUser && c.LoginPassword == loginModel.LoginPassword);
             var roles = await _rolesRepository.GetAllAsync();
@@ -155,6 +174,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
             if (credential != null)
             {
+
                 credential.Roles = roles.FirstOrDefault(r => r.RoleId == credential.RoleId);
                 credential.Teacher = teachers.FirstOrDefault(t => t.TeacherId == credential.TeacherId);
                 List<Claim> claims = new List<Claim>()
@@ -173,6 +193,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity), properties);
+
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -192,6 +213,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RestorePassword(LoginModel loginModel)
         {
+
             var credentials = await _loginRepository.GetAllAsync();
             var credential = credentials.FirstOrDefault(c => c.LoginUser == loginModel.LoginUser);
 
