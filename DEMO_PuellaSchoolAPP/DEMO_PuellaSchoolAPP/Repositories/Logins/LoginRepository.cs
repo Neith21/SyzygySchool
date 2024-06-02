@@ -13,12 +13,44 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Logins
             _dataAccess = dataAccess;
         }
 
-        public async Task<IEnumerable<LoginModel>> GetAllAsync()
+        public async Task<IEnumerable<TeacherModel>> GetAllTeachersAsync()
         {
-            return await _dataAccess.GetDataAsync<LoginModel, dynamic>(
-                "dbo.spLogin_GetAll",
+            return await _dataAccess.GetDataAsync<TeacherModel, dynamic>(
+                "dbo.spTeachers_GetAll",
                 new { }
                 );
+        }
+
+        public async Task<IEnumerable<RolModel>> GetAllRolesAsync()
+        {
+            return await _dataAccess.GetDataAsync<RolModel, dynamic>(
+                "dbo.spRoles_GetAll",
+                new { }
+                );
+        }
+
+        public async Task<IEnumerable<LoginModel>> GetAllAsyncLogin()
+        {
+            return await _dataAccess.GetDataAsync<LoginModel, dynamic>(
+                "dbo.spLogin_Login",
+                new { }
+                );
+        }
+
+        public async Task<IEnumerable<LoginModel>> GetAllAsync()
+        {
+            var logins = await _dataAccess.GetData1Async<LoginModel, TeacherModel, RolModel, dynamic>(
+                "dbo.spLogin_GetAll",
+                new { },
+                (login, teacher, rol) =>
+                 {
+                     login.Teacher = teacher;
+                     login.Roles = rol;
+                     return login;
+                 },
+                 splitOn: "TeacherName, RoleName"
+             );
+            return logins;
         }
 
         public async Task<LoginModel?> GetByIdAsync(int id)

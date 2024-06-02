@@ -46,11 +46,6 @@
 							<td>@classs.Grade?.GradeName</td>
 							<td>@classs.Section?.SectionName</td>
 							<td>
-								<a asp-controller="Class" asp-action="ListClassroom" asp-route-id="@classs.ClassId" class="btn btn-primary">
-									<i class="fa fa-pencil-alt"></i>
-								</a>
-							</td>
-							<td>
 								<a asp-controller="Class" asp-action="Edit" asp-route-id="@classs.ClassId" class="btn btn-primary">
 									<i class="fa fa-pencil-alt"></i>
 								</a>

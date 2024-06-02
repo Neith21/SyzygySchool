@@ -14,12 +14,14 @@ namespace DEMO_PuellaSchoolAPP.Validations
             {
                 var userName = user.FindFirstValue(ClaimTypes.Name);
                 var email = user.FindFirstValue(ClaimTypes.Email);
+                var rol = user.FindFirstValue(ClaimTypes.Role);
 
                 var controller = context.Controller as Controller;
                 if (controller != null)
                 {
                     controller.ViewBag.UserName = userName;
                     controller.ViewBag.Email = email;
+                    controller.ViewBag.Rol = rol;
                 }
             }
         }

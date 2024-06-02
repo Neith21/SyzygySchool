@@ -44,8 +44,8 @@
 							<td>@Html.DisplayFor(item => login.LoginId)</td>
 							<td>@Html.DisplayFor(item => login.LoginUser)</td>
 							<td>@Html.DisplayFor(item => login.LoginPassword)</td>
-							<td>@Html.DisplayFor(item => login.TeacherId)</td>
-							<td>@Html.DisplayFor(item => login.RoleId)</td>
+							<td>@login.Teacher.TeacherName</td>
+							<td>@login.Roles.RoleName</td>
 							<td>
 								<a asp-controller="Login" asp-action="Edit" asp-route-id="@login.LoginId" class="btn btn-primary">
 									<i class="fa fa-pencil-alt"></i>

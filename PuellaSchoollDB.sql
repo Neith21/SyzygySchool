@@ -338,12 +338,22 @@ END
 GO
 
 ---------------------------------------- Procesos almacenados de login --------------------------------------
+CREATE OR ALTER PROCEDURE spLogin_Login
+AS
+BEGIN
+	SELECT LoginId, LoginUser, LoginPassword, TeacherId, RoleId
+    FROM Logins
+END
+GO
+
 -- Procedimiento almacenado para SELECT
 CREATE OR ALTER PROCEDURE spLogin_GetAll
 AS
 BEGIN
-    SELECT LoginId, LoginUser, LoginPassword, TeacherId, RoleId
-    FROM Logins;
+    SELECT l.LoginId, l.LoginUser, l.LoginPassword, l.TeacherId, t.TeacherName, l.RoleId, r.RoleName
+    FROM Logins l
+	INNER JOIN Teachers t ON l.TeacherId = t.TeacherId
+	INNER JOIN Roles r ON l.RoleId = r.RoleId
 END;
 GO
 
@@ -798,7 +808,8 @@ CREATE OR ALTER PROC dbo.spClassrooms_GetByIdClass
 (@ClassId INT)
 AS
 BEGIN
-    SELECT ClassroomId, S.StudentName, CL.ClassInfo, C.ClassId, C.StudentId, CL.GradeId, CL.SectionId FROM Classrooms C INNER JOIN Students S ON S.StudentId = c.StudentId
+    SELECT ClassroomId, S.StudentName, CL.ClassInfo, C.ClassId, C.StudentId, CL.GradeId, CL.SectionId FROM Classrooms C 
+	INNER JOIN Students S ON S.StudentId = c.StudentId
     INNER JOIN Classes Cl ON Cl.ClassId = C.ClassId
     WHERE C.ClassId = @ClassId
 

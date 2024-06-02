@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using DEMO_PuellaSchoolAPP.Repositories.RTeachers;
 using FluentValidation;
 using DEMO_PuellaSchoolAPP.Validations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
@@ -19,6 +20,9 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         private readonly ITeacherRepository _teacherRepository;
         private readonly IValidator<LoginModel> _validator;
 
+        private SelectList _teachersList;
+        private SelectList _rolesList;
+
         public LoginController(ILoginRepository loginRepository, IRolesRepository rolesRepository, 
                                ITeacherRepository teacherRepository, IValidator<LoginModel> validator)
         {
@@ -26,6 +30,24 @@ namespace DEMO_PuellaSchoolAPP.Controllers
             _rolesRepository = rolesRepository;
             _teacherRepository = teacherRepository;
             _validator = validator;
+            InitializeAsync().GetAwaiter().GetResult();
+        }
+
+        private async Task InitializeAsync()
+        {
+            var teachers = await _loginRepository.GetAllTeachersAsync();
+            _teachersList = new SelectList(
+                teachers,
+                nameof(TeacherModel.TeacherId),
+                nameof(TeacherModel.TeacherName)
+            );
+
+            var roles = await _loginRepository.GetAllRolesAsync();
+            _rolesList = new SelectList(
+                roles,
+                nameof(RolModel.RoleId),
+                nameof(RolModel.RoleName)
+            );
         }
 
         [Authorize]
@@ -41,6 +63,9 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            ViewBag.Teacher = _teachersList;
+            ViewBag.Rol = _rolesList;
+
             return View();
         }
 
@@ -67,6 +92,9 @@ namespace DEMO_PuellaSchoolAPP.Controllers
             }
             catch (Exception ex)
             {
+                ViewBag.Teacher = _teachersList;
+                ViewBag.Rol = _rolesList;
+
                 TempData["message"] = ex.Message;
 
                 return View(loginModel);
@@ -83,6 +111,23 @@ namespace DEMO_PuellaSchoolAPP.Controllers
             {
                 return NotFound();
             }
+
+            var teachers = await _loginRepository.GetAllTeachersAsync();
+            _teachersList = new SelectList(
+                teachers,
+                nameof(TeacherModel.TeacherId),
+                nameof(TeacherModel.TeacherName)
+            );
+
+            var roles = await _loginRepository.GetAllRolesAsync();
+            _rolesList = new SelectList(
+                roles,
+                nameof(RolModel.RoleId),
+                nameof(RolModel.RoleName)
+            );
+
+            ViewBag.Teacher = _teachersList;
+            ViewBag.Rol = _rolesList;
 
             return View(login);
         }
@@ -110,6 +155,10 @@ namespace DEMO_PuellaSchoolAPP.Controllers
             }
             catch (Exception ex)
             {
+
+                ViewBag.Teacher = _teachersList;
+                ViewBag.Rol = _rolesList;
+
                 TempData["message"] = ex.Message;
 
                 return View(loginModel);
@@ -126,6 +175,13 @@ namespace DEMO_PuellaSchoolAPP.Controllers
             {
                 return NotFound();
             }
+
+            var teachers = await _loginRepository.GetAllTeachersAsync();
+            var roles = await _loginRepository.GetAllRolesAsync();
+
+
+            login.Teacher = teachers.FirstOrDefault(t => t.TeacherId == login.TeacherId);
+            login.Roles = roles.FirstOrDefault(r => r.RoleId == login.RoleId);
 
             return View(login);
         }
@@ -167,14 +223,13 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         public async Task<ActionResult> Login(LoginModel loginModel)
         {
 
-            var credentialsList = await _loginRepository.GetAllAsync();
+            var credentialsList = await _loginRepository.GetAllAsyncLogin();
             var credential = credentialsList.FirstOrDefault(c => c.LoginUser == loginModel.LoginUser && c.LoginPassword == loginModel.LoginPassword);
             var roles = await _rolesRepository.GetAllAsync();
             var teachers = await _teacherRepository.GetAllAsync();
 
             if (credential != null)
             {
-
                 credential.Roles = roles.FirstOrDefault(r => r.RoleId == credential.RoleId);
                 credential.Teacher = teachers.FirstOrDefault(t => t.TeacherId == credential.TeacherId);
                 List<Claim> claims = new List<Claim>()
