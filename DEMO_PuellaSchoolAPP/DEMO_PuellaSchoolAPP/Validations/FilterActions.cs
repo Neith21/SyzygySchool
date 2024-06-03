@@ -21,7 +21,7 @@ namespace DEMO_PuellaSchoolAPP.Validations
                 {
                     controller.ViewBag.UserName = userName;
                     controller.ViewBag.Email = email;
-                    controller.ViewBag.Rol = rol;
+                    controller.ViewBag.Role = rol;
                 }
             }
         }

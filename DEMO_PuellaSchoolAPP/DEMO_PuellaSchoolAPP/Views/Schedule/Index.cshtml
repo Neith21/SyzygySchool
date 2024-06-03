@@ -10,7 +10,7 @@
 	<div class="row">
 		<div class="col-md-12">
 
-			@if (ViewBag.Rol == rolType.Admin.ToString())
+			@if (ViewBag.Role == rolType.Admin.ToString())
 			{
 				<div class="row d-flex">
 					<div class="col-6">
@@ -43,7 +43,7 @@
 						<td>Asignatura</td>
 						<td>Docente</td>
 						<td>Clase</td>
-						@if (ViewBag.Rol == rolType.Admin.ToString())
+						@if (ViewBag.Role == rolType.Admin.ToString())
 						{
 							<td>Acciones</td>
 						}
@@ -63,7 +63,7 @@
 							<td>@schedule.Subject?.SubjectName</td>
 							<td>@schedule.Teacher?.TeacherName</td>
 							<td>@schedule.Class?.ClassInfo</td>
-							@if (ViewBag.Rol == rolType.Admin.ToString())
+							@if (ViewBag.Role == rolType.Admin.ToString())
 							{
 								<td>
 									<a asp-controller="Schedule" asp-action="Edit" asp-route-id="@schedule.IdSchedule" class="btn btn-primary">

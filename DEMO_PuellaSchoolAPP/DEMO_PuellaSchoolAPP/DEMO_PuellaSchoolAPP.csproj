@@ -68,7 +68,6 @@
     <None Include="Views\Class\SpecificSchedule.cshtml" />
     <None Include="Views\Class\Students.cshtml" />
     <None Include="Views\Login\Login.cshtml" />
-    <None Include="Views\Login\RestorePassword.cshtml" />
     <None Include="Views\Schedule\Delete.cshtml" />
     <None Include="Views\Schedule\Index.cshtml" />
     <None Include="Views\Subject\Create.cshtml" />

@@ -86,7 +86,7 @@
                                 <p>Clases</p>
                              </a>
                         </li>
-                        @if(ViewBag.Rol == rolType.Admin.ToString()){
+                        @if(ViewBag.Role == rolType.Admin.ToString()){
                             <li class="nav-item">
                                 <a asp-controller="Teacher" asp-action="Index" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -94,15 +94,15 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a asp-controller="Login" asp-action="Index" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Credenciales</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a asp-controller="Rol" asp-action="Index" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Roles</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Login" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Credenciales</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -125,7 +125,6 @@
                             </li>
                         }
                     </ul>
-
                 </li>
             </ul>
         </nav>
