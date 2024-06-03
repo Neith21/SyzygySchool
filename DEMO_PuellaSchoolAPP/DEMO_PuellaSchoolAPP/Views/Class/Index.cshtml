@@ -46,6 +46,9 @@
 							<td>@classs.Grade?.GradeName</td>
 							<td>@classs.Section?.SectionName</td>
 							<td>
+								<a asp-controller="Class" asp-action="Students" asp-route-id="@classs.ClassId" asp-route-grade="@classs.Grade?.GradeName" asp-route-section="@classs.Section?.SectionName" class="btn btn-primary">
+									Aula
+								</a>
 								<a asp-controller="Class" asp-action="Edit" asp-route-id="@classs.ClassId" class="btn btn-primary">
 									<i class="fa fa-pencil-alt"></i>
 								</a>

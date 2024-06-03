@@ -1,0 +1,100 @@
+﻿@model IEnumerable<DEMO_PuellaSchoolAPP.Models.ScheduleModel>
+
+@{
+	ViewData["Title"] = "Horarios";
+}
+
+<h1 style="text-align:center">Listado de Horarios</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			@if (TempData["message"] != null)
+			{
+				<div class="alert alert-primary" role="alert">
+					@TempData["message"]
+				</div>
+			}
+
+			<table class="table table-bordered table-striped table-responsive" id="scheduleTable">
+				<thead>
+					<tr>
+						<td>ID</td>
+						<td>Información</td>
+						<td>Fecha de creación</td>
+						<td>Día</td>
+						<td>Inicio</td>
+						<td>Final</td>
+						<td>Fecha de expiración</td>
+						<td>Asignatura</td>
+						<td>Docente</td>
+						<td>Clase</td>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var schedule in Model)
+					{
+						<tr>
+							<td>@Html.DisplayFor(item => schedule.IdSchedule)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleInfo)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleCreation)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleDay)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleStart)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleEnd)</td>
+							<td>@Html.DisplayFor(item => schedule.ScheduleExpiration)</td>
+							<td>@schedule.Subject?.SubjectName</td>
+							<td>@schedule.Teacher?.TeacherName</td>
+							<td>@schedule.Class?.ClassInfo</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$("#scheduleTable").DataTable({
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'csv',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'pdf',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					},
+					{
+						extend: 'excel',
+						exportOptions: {
+							columns: ':not(:last-child)'
+						}
+					}
+				],
+				columns: [
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null
+				],
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+				}
+			});
+		});
+	</script>
+}

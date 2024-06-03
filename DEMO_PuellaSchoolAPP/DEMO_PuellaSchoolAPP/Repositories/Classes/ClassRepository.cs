@@ -50,15 +50,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Classes
             return classes;
         }
 
-		public async Task<IEnumerable<StudentModel>> ClassroomsGetByIdClassAsync()
-		{
-			return await _dataAccess.GetDataAsync<StudentModel, dynamic>(
-				"dbo.spTeachers_GetAll",
-				new { }
-				);
-		}
-
-		public async Task<ClassModel?> GetByIdAsync(int id)
+        public async Task<ClassModel?> GetByIdAsync(int id)
         {
             var classs = await _dataAccess.GetDataAsync<ClassModel, dynamic>(
                 "dbo.spClasses_GetById",
@@ -66,6 +58,32 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Classes
                 );
 
             return classs.FirstOrDefault();
+        }
+
+		public async Task<IEnumerable<StudentModel>> GetStudentsByClassIdAsync(int classId)
+		{
+			return await _dataAccess.GetDataAsync<StudentModel, dynamic>(
+				"dbo.spStudents_GetByClassId",
+				new { ClassId = classId }
+			);
+		}
+
+        public async Task<IEnumerable<ScheduleModel>> GetScheduleByBGSIdAsync(int grd, int sctn)
+        {
+            var schedules = await _dataAccess.GetData2Async<ScheduleModel, SubjectModel, TeacherModel, ClassModel, dynamic>(
+                "dbo.spSchedules_GetBGSId",
+                new { GradeId = grd, SectionId = sctn },
+                (schedule, subject, teacher, classs) =>
+                {
+                    schedule.Subject = subject;
+                    schedule.Teacher = teacher;
+                    schedule.Class = classs;
+                    return schedule;
+                },
+                splitOn: "SubjectName,TeacherName,ClassInfo"
+            );
+
+            return schedules;
         }
 
         public async Task<IEnumerable<GradeModel>> GetAllGradesAsync()

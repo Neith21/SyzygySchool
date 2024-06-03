@@ -11,5 +11,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Classes
         Task<IEnumerable<GradeModel>> GetAllGradesAsync();
         Task<IEnumerable<SectionModel>> GetAllSectionsAsync();
         Task<ClassModel?> GetByIdAsync(int id);
-    }
+		Task<IEnumerable<ScheduleModel>> GetScheduleByBGSIdAsync(int grd, int sctn);
+		Task<IEnumerable<StudentModel>> GetStudentsByClassIdAsync(int classId);
+	}
 }

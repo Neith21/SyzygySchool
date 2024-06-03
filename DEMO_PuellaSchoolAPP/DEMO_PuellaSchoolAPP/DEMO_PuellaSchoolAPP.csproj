@@ -60,6 +60,13 @@
     <None Include="Views\Classroom\Delete.cshtml" />
     <None Include="Views\Classroom\Edit.cshtml" />
     <None Include="Views\Classroom\Index.cshtml" />
+    <None Include="Views\Class\Create.cshtml" />
+    <None Include="Views\Class\Delete.cshtml" />
+    <None Include="Views\Class\Edit.cshtml" />
+    <None Include="Views\Class\GetId.cshtml" />
+    <None Include="Views\Class\Index.cshtml" />
+    <None Include="Views\Class\SpecificSchedule.cshtml" />
+    <None Include="Views\Class\Students.cshtml" />
     <None Include="Views\Login\Login.cshtml" />
     <None Include="Views\Login\RestorePassword.cshtml" />
     <None Include="Views\Schedule\Create.cshtml" />

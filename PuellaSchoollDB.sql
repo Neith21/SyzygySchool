@@ -239,15 +239,37 @@ VALUES
 ('sophia.miller', 'password3', 3, 3);
 GO
 
-SELECT Schedules.IdSchedule, Schedules.ScheduleInfo, Schedules.ScheduleDay, Schedules.ScheduleCreation, Schedules.ScheduleStart, Schedules.ScheduleEnd, Schedules.ScheduleExpiration, Subjects.SubjectName, Teachers.TeacherName, Teachers.TeacherLastName, Classes.GradeId, Classes.SectionId
-FROM Schedules
-JOIN Subjects ON Schedules.SubjectId = Subjects.SubjectId
-JOIN Teachers ON Schedules.TeacherId = Teachers.TeacherId
-JOIN Classes ON Schedules.ClassId = Classes.ClassId
-WHERE Classes.GradeId = 1
-AND Classes.SectionId = 1
-GROUP BY Schedules.IdSchedule, Schedules.ScheduleInfo, Schedules.ScheduleDay, Schedules.ScheduleCreation, Schedules.ScheduleStart, Schedules.ScheduleEnd, Schedules.ScheduleExpiration, Subjects.SubjectName, Teachers.TeacherName, Teachers.TeacherLastName, Classes.GradeId, Classes.SectionId;
+CREATE OR ALTER PROCEDURE spSchedules_GetBGSId
+    @GradeId INT,
+    @SectionId INT
+AS
+BEGIN
+    SELECT 
+        sc.IdSchedule,
+        sc.ScheduleInfo,
+        sc.ScheduleCreation,
+		sc.ScheduleDay,
+        sc.ScheduleStart,
+        sc.ScheduleEnd,
+        sc.ScheduleExpiration,
+		sc.ClassId,
+        sc.SubjectId,
+        s.SubjectName,
+        sc.TeacherId,
+        t.TeacherName,
+		sc.ClassId,
+		c.ClassInfo
+    FROM 
+        Schedules sc
+    JOIN Subjects s ON sc.SubjectId = s.SubjectId -- Corregido el join con Subjects
+    JOIN Teachers t ON sc.TeacherId = t.TeacherId
+    JOIN Classes c ON sc.ClassId = c.ClassId
+    WHERE c.GradeId = @GradeId -- Usar los parámetros
+    AND c.SectionId = @SectionId -- Usar los parámetros
+    GROUP BY sc.IdSchedule, sc.ScheduleInfo, sc.ScheduleCreation, sc.ScheduleDay, sc.ScheduleStart, sc.ScheduleEnd, sc.ScheduleExpiration, sc.ClassId, sc.SubjectId, s.SubjectName, sc.TeacherId, t.TeacherName, t.TeacherLastName, c.ClassInfo; -- Ajustar las columnas en el GROUP BY
+END;
 GO
+
 ---[Procesos almacenados para tab la students]---
 
 CREATE OR ALTER PROC dbo.spStudents_Insert --Insert
@@ -804,15 +826,17 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROC dbo.spClassrooms_GetByIdClass
+CREATE OR ALTER PROC dbo.spStudents_GetByClassId
 (@ClassId INT)
 AS
 BEGIN
-    SELECT ClassroomId, S.StudentName, CL.ClassInfo, C.ClassId, C.StudentId, CL.GradeId, CL.SectionId FROM Classrooms C 
-	INNER JOIN Students S ON S.StudentId = c.StudentId
-    INNER JOIN Classes Cl ON Cl.ClassId = C.ClassId
-    WHERE C.ClassId = @ClassId
-
+    SELECT C.StudentId, S.StudentName, S.StudentLastName, S.StudentAge, S.StudentGender, S.StudentParentName
+	FROM Classrooms C
+	INNER JOIN
+		Students S ON S.StudentId = c.StudentId
+    INNER JOIN
+		Classes Cl ON Cl.ClassId = C.ClassId
+    WHERE C.ClassId = @ClassId;
 END
 GO
 

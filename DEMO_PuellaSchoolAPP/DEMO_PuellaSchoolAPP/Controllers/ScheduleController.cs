@@ -53,7 +53,7 @@ namespace DEMO_PuellaSchoolAPP.Controllers
             return View(schedules);
         }
 
-		[HttpGet]
+        [HttpGet]
 		public ActionResult Create()
 		{
             ViewBag.Subjects = _subjectList;
