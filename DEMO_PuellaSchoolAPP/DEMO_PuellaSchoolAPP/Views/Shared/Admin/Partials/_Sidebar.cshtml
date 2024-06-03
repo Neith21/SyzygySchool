@@ -69,39 +69,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-controller="Teacher" asp-action="Index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Maestros</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a asp-controller="Schedule" asp-action="Index" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Horarios</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-controller="Class" asp-action="Index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Clases</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-controller="Login" asp-action="Index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Credenciales</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-controller="Rol" asp-action="Index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Roles</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-controller="Grade" asp-action="Index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Grados</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -111,17 +81,49 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-controller="Section" asp-action="Index" class="nav-link">
+                             <a asp-controller="Class" asp-action="Index" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Sección</p>
-                            </a>
+                                <p>Clases</p>
+                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a asp-controller="Subject" asp-action="Index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Asignaturas</p>
-                            </a>
-                        </li>
+                        @if(ViewBag.Rol == rolType.Admin.ToString()){
+                            <li class="nav-item">
+                                <a asp-controller="Teacher" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Maestros</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Login" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Credenciales</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Rol" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Roles</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Grade" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Grados</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Section" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Sección</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Subject" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Asignaturas</p>
+                                </a>
+                            </li>
+                        }
                     </ul>
 
                 </li>

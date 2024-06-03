@@ -10,15 +10,18 @@
 	<div class="row">
 		<div class="col-md-12">
 
-			<div class="row d-flex">
-				<div class="col-6">
-					<div class="mb-3 mb-3">
-						<a asp-action="Create" asp-controller="Schedule" class="btn btn-success">
-							Nuevo Horario
-						</a>
+			@if (ViewBag.Rol == rolType.Admin.ToString())
+			{
+				<div class="row d-flex">
+					<div class="col-6">
+						<div class="mb-3 mb-3">
+							<a asp-action="Create" asp-controller="Schedule" class="btn btn-success">
+								Nuevo Horario
+							</a>
+						</div>
 					</div>
 				</div>
-			</div>
+			}
 
 			@if (TempData["message"] != null)
 			{
@@ -27,7 +30,7 @@
 				</div>
 			}
 
-			<table class="table table-bordered table-striped table-responsive" id="scheduleTable">
+			<table class="table table-bordered table-striped" id="scheduleTable">
 				<thead>
 					<tr>
 						<td>ID</td>
@@ -40,7 +43,10 @@
 						<td>Asignatura</td>
 						<td>Docente</td>
 						<td>Clase</td>
-						<td>Acciones</td>
+						@if (ViewBag.Rol == rolType.Admin.ToString())
+						{
+							<td>Acciones</td>
+						}
 					</tr>
 				</thead>
 				<tbody>
@@ -57,14 +63,17 @@
 							<td>@schedule.Subject?.SubjectName</td>
 							<td>@schedule.Teacher?.TeacherName</td>
 							<td>@schedule.Class?.ClassInfo</td>
-							<td>
-								<a asp-controller="Schedule" asp-action="Edit" asp-route-id="@schedule.IdSchedule" class="btn btn-primary">
-									<i class="fa fa-pencil-alt"></i>
-								</a>
-								<a asp-controller="Schedule" asp-action="Delete" asp-route-id="@schedule.IdSchedule" class="btn btn-danger">
-									<i class="fa fa-trash"></i>
-								</a>
-							</td>
+							@if (ViewBag.Rol == rolType.Admin.ToString())
+							{
+								<td>
+									<a asp-controller="Schedule" asp-action="Edit" asp-route-id="@schedule.IdSchedule" class="btn btn-primary">
+										<i class="fa fa-pencil-alt"></i>
+									</a>
+									<a asp-controller="Schedule" asp-action="Delete" asp-route-id="@schedule.IdSchedule" class="btn btn-danger">
+										<i class="fa fa-trash"></i>
+									</a>
+								</td>
+							}
 						</tr>
 					}
 				</tbody>
@@ -100,7 +109,7 @@
 				],
 				columnDefs: [
 					{
-						targets: 10,
+						targets: 9,
 						orderable: false,
 						searchable: false
 					}

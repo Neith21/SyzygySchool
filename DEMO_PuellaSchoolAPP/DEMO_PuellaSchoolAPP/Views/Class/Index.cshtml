@@ -10,15 +10,19 @@
 	<div class="row">
 		<div class="col-md-12">
 
-			<div class="row d-flex">
-				<div class="col-6">
-					<div class="mb-3 mb-3">
-						<a asp-action="Create" asp-controller="Class" class="btn btn-success">
-							Nuevo Horario
-						</a>
+
+			@if (ViewBag.Rol == rolType.Admin.ToString())
+			{
+				<div class="row d-flex">
+					<div class="col-6">
+						<div class="mb-3 mb-3">
+							<a asp-action="Create" asp-controller="Class" class="btn btn-success">
+								Nuevo Horario
+							</a>
+						</div>
 					</div>
 				</div>
-			</div>
+			}
 
 			@if (TempData["message"] != null)
 			{
@@ -27,14 +31,17 @@
 				</div>
 			}
 
-			<table class="table table-bordered table-striped table-responsive" id="classTable">
+			<table class="table table-bordered table-striped" id="classTable">
 				<thead>
 					<tr>
 						<td>ID</td>
 						<td>Información</td>
 						<td>Grado</td>
 						<td>Sección</td>
-						<td>Acciones</td>
+						@if (ViewBag.Rol == rolType.Admin.ToString())
+						{
+							<td>Acciones</td>
+						}
 					</tr>
 				</thead>
 				<tbody>
@@ -45,17 +52,20 @@
 							<td>@Html.DisplayFor(item => classs.ClassInfo)</td>
 							<td>@classs.Grade?.GradeName</td>
 							<td>@classs.Section?.SectionName</td>
-							<td>
-								<a asp-controller="Class" asp-action="Students" asp-route-id="@classs.ClassId" asp-route-grade="@classs.Grade?.GradeName" asp-route-section="@classs.Section?.SectionName" class="btn btn-primary">
-									Aula
-								</a>
-								<a asp-controller="Class" asp-action="Edit" asp-route-id="@classs.ClassId" class="btn btn-primary">
-									<i class="fa fa-pencil-alt"></i>
-								</a>
-								<a asp-controller="Class" asp-action="Delete" asp-route-id="@classs.ClassId" class="btn btn-danger">
-									<i class="fa fa-trash"></i>
-								</a>
-							</td>
+							@if (ViewBag.Rol == rolType.Admin.ToString())
+							{
+								<td>
+									<a asp-controller="Class" asp-action="Students" asp-route-id="@classs.ClassId" asp-route-grade="@classs.Grade?.GradeName" asp-route-section="@classs.Section?.SectionName" class="btn btn-primary">
+										Aula
+									</a>
+									<a asp-controller="Class" asp-action="Edit" asp-route-id="@classs.ClassId" class="btn btn-primary">
+										<i class="fa fa-pencil-alt"></i>
+									</a>
+									<a asp-controller="Class" asp-action="Delete" asp-route-id="@classs.ClassId" class="btn btn-danger">
+										<i class="fa fa-trash"></i>
+									</a>
+								</td>
+							}
 						</tr>
 					}
 				</tbody>

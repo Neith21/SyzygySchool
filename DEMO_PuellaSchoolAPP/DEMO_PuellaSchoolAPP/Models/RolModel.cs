@@ -11,4 +11,10 @@ namespace DEMO_PuellaSchoolAPP.Models
         [Required(ErrorMessage = "La informacion del rol es obligatoria")]
         public string RoleInfo { get; set; }
     }
+
+    public enum rolType
+    {
+        Admin,
+        Teacher
+    }
 }
