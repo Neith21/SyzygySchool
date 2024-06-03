@@ -71,6 +71,10 @@
     <None Include="Views\Login\RestorePassword.cshtml" />
     <None Include="Views\Schedule\Delete.cshtml" />
     <None Include="Views\Schedule\Index.cshtml" />
+    <None Include="Views\Subject\Create.cshtml" />
+    <None Include="Views\Subject\Delete.cshtml" />
+    <None Include="Views\Subject\Edit.cshtml" />
+    <None Include="Views\Subject\Index.cshtml" />
     <None Include="Views\Teacher\Create.cshtml" />
     <None Include="Views\Teacher\Delete.cshtml" />
     <None Include="Views\Teacher\Edit.cshtml" />

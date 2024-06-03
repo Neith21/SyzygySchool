@@ -28,6 +28,7 @@ builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<IGradesRepository, GradesRepository>();
 builder.Services.AddScoped<ISectionsRepository, SectionsRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 
 //Emails
 builder.Services.AddTransient<IEMailService, EMailService>();
@@ -39,6 +40,7 @@ builder.Services.AddScoped<IValidator<RolModel>, RolValidator>();
 builder.Services.AddScoped<IValidator<LoginModel>, LoginValidator>();
 builder.Services.AddScoped<IValidator<GradeModel>, GradeValidator>();
 builder.Services.AddScoped<IValidator<SectionModel>, SectionValidator>();
+builder.Services.AddScoped<IValidator<SubjectModel>, SubjectValidator>();
 
 // login
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

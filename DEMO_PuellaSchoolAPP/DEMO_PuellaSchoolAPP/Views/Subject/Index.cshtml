@@ -1,0 +1,102 @@
+﻿@model IEnumerable<DEMO_PuellaSchoolAPP.Models.SubjectModel>
+
+@{
+    ViewData["Title"] = "Asignaturas";
+}
+
+<h1 style="text-align:center">Listado de Asignaturas</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="row d-flex">
+                <div class="col-6">
+                    <div class="mb-3 mb-3">
+                        <a asp-action="Create" asp-controller="Subject" class="btn btn-success">
+                            Nueva Asignatura
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-primary" role="alert">
+                    @TempData["message"]
+                </div>
+            }
+
+            <table class="table table-bordered table-striped" id="subjectTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Información</th>
+                        <th>Grado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var subject in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(item => subject.SubjectId)</td>
+                            <td>@Html.DisplayFor(item => subject.SubjectName)</td>
+                            <td>@Html.DisplayFor(item => subject.SubjectInfo)</td>
+                            <td>@subject.Grades?.GradeName</td>
+                            <td>
+                                <a asp-controller="Subject" asp-action="Edit" asp-route-id="@subject.SubjectId" class="btn btn-primary">
+                                    <i class="fa fa-pencil-alt"></i>
+                                </a>
+                                <a asp-controller="Subject" asp-action="Delete" asp-route-id="@subject.SubjectId" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#subjectTable").DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:last-child)'
+                        }
+                    }
+                ],
+                columnDefs: [
+                    {
+                        targets: 4,
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+        });
+    </script>
+}

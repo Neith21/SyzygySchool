@@ -4,9 +4,9 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Agregar Maestro</h1>
 
-<h4>TeacherModel</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,17 +14,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
          
             <div class="form-group">
-                <label asp-for="TeacherName" class="control-label"></label>
+                <label asp-for="TeacherName" class="control-label">Nombre del Maestro</label>
                 <input asp-for="TeacherName" class="form-control" />
                 <span asp-validation-for="TeacherName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TeacherLastName" class="control-label"></label>
+                <label asp-for="TeacherLastName" class="control-label">Apellido</label>
                 <input asp-for="TeacherLastName" class="form-control" />
                 <span asp-validation-for="TeacherLastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TeacherAge" class="control-label"></label>
+                <label asp-for="TeacherAge" class="control-label">Edad</label>
                 <input asp-for="TeacherAge" class="form-control" />
                 <span asp-validation-for="TeacherAge" class="text-danger"></span>
             </div>
@@ -39,25 +39,25 @@
                 <span asp-validation-for="TeacherGender" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TeacherPhone" class="control-label"></label>
+                <label asp-for="TeacherPhone" class="control-label">Contacto</label>
                 <input asp-for="TeacherPhone" class="form-control" />
                 <span asp-validation-for="TeacherPhone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TeacherEmail" class="control-label"></label>
+                <label asp-for="TeacherEmail" class="control-label">Correo Electronico</label>
                 <input asp-for="TeacherEmail" class="form-control" />
                 <span asp-validation-for="TeacherEmail" class="text-danger"></span>
             </div>
      
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Crear" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Regresar al listado</a>
 </div>
 
 @section Scripts {
