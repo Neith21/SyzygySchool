@@ -1,24 +1,31 @@
 ﻿using DEMO_PuellaSchoolAPP.Models;
+using DEMO_PuellaSchoolAPP.Services.EMail;
 using DEMO_PuellaSchoolAPP.Repositories.RStudents;
 using DEMO_PuellaSchoolAPP.Repositories.Schedules;
 using DEMO_PuellaSchoolAPP.Validations;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using DEMO_PuellaSchoolAPP.Repositories.RTeachers;
 
 namespace DEMO_PuellaSchoolAPP.Controllers
 {
     public class ScheduleController : Controller
     {
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly ITeacherRepository _teacherRepository;
+        private readonly IEMailService _emailService;
 
         private SelectList _subjectList;
         private SelectList _teacherList;
         private SelectList _classList;
 
-        public ScheduleController(IScheduleRepository scheduleRepository)
+        public ScheduleController(IScheduleRepository scheduleRepository, IEMailService emailService, ITeacherRepository teacherRepository)
         {
+            _emailService = emailService;
             _scheduleRepository = scheduleRepository;
+            _teacherRepository = teacherRepository;
 
             InitializeAsync().GetAwaiter().GetResult();
         }
@@ -71,7 +78,15 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 			{
 				await _scheduleRepository.AddAsync(schedule);
 
+
+                var Teachers = await _teacherRepository.GetAllAsync();
+                var teacher = Teachers.FirstOrDefault(T => T.TeacherId == schedule.TeacherId);
 				TempData["message"] = "Datos guardados correctamente.";
+
+                string email = teacher.TeacherEmail;
+                string subject = "¡Horario asignado!";
+                string type = "Create";
+                _emailService.SendEmail(email, teacher.TeacherName + " " + teacher.TeacherLastName, subject, type);
 
                 return RedirectToAction(nameof(Index));
 			}
@@ -131,7 +146,16 @@ namespace DEMO_PuellaSchoolAPP.Controllers
 
                 TempData["message"] = "Datos editados correctamente.";
 
-                return RedirectToAction(nameof(Index));
+				var Teachers = await _teacherRepository.GetAllAsync();
+				var teacher = Teachers.FirstOrDefault(T => T.TeacherId == schedule.TeacherId);
+				TempData["message"] = "Datos guardados correctamente.";
+
+				string email = teacher.TeacherEmail;
+				string subject = "¡Horario asignado!";
+				string type = "Edit";
+				_emailService.SendEmail(email, teacher.TeacherName + " " + teacher.TeacherLastName, subject, type);
+
+				return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
@@ -164,11 +188,11 @@ namespace DEMO_PuellaSchoolAPP.Controllers
         {
             try
             {
-                await _scheduleRepository.DeleteAsync(schedule.IdSchedule);
+				await _scheduleRepository.DeleteAsync(schedule.IdSchedule);
 
-                TempData["message"] = "Datos eliminados correctamente.";
+				TempData["message"] = "Datos eliminados correctamente.";
 
-                return RedirectToAction(nameof(Index));
+				return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {

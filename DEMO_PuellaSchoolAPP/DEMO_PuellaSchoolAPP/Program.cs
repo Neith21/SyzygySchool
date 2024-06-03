@@ -9,6 +9,7 @@ using DEMO_PuellaSchoolAPP.Repositories.RStudents;
 using DEMO_PuellaSchoolAPP.Repositories.RTeachers;
 using DEMO_PuellaSchoolAPP.Repositories.Schedules;
 using DEMO_PuellaSchoolAPP.Repositories.Sections;
+using DEMO_PuellaSchoolAPP.Services.EMail;
 using DEMO_PuellaSchoolAPP.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -27,6 +28,9 @@ builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 builder.Services.AddScoped<IGradesRepository, GradesRepository>();
 builder.Services.AddScoped<ISectionsRepository, SectionsRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
+
+//Emails
+builder.Services.AddTransient<IEMailService, EMailService>();
 
 //Validations
 builder.Services.AddScoped<IValidator<StudentModel>, StudentValidator>();

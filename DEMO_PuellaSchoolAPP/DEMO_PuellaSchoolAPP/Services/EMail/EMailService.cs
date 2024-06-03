@@ -3,7 +3,7 @@ using MimeKit;
 
 namespace DEMO_PuellaSchoolAPP.Services.EMail
 {
-    public class EMailService
+    public class EMailService : IEMailService
     {
         private readonly IConfiguration _configuration;
 
@@ -16,7 +16,7 @@ namespace DEMO_PuellaSchoolAPP.Services.EMail
             string emailTo,
             string recepientName,
             string subject,
-            string body)
+            string type)
         {
             try
             {
@@ -32,12 +32,25 @@ namespace DEMO_PuellaSchoolAPP.Services.EMail
                 message.Subject = subject;
 
                 var builder = new BodyBuilder();
+                var templatePath = "";
 
-                var templatePath = Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                    "EmailTemplates",
-                    "welcome_email.html"
-                    );
+                if (type == "Create")
+                {
+					templatePath = Path.Combine(
+					Directory.GetCurrentDirectory(),
+					"EmailTemplates",
+					"Schedule_Created.html"
+					);
+				}else if(type == "Edit")
+                {
+					templatePath = Path.Combine(
+					Directory.GetCurrentDirectory(),
+					"EmailTemplates",
+					"Schedule_Edited.html"
+					);
+                }
+
+                
 
                 var templateContent = File.ReadAllText(templatePath);
                 templateContent = templateContent.Replace("@Name", recepientName);

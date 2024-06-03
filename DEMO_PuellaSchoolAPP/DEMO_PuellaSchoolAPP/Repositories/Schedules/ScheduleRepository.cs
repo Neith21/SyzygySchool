@@ -104,5 +104,5 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Schedules
                 new { }
             );
         }
-    }
+	}
 }

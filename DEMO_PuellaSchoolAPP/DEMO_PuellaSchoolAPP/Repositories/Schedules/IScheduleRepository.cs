@@ -11,6 +11,7 @@ namespace DEMO_PuellaSchoolAPP.Repositories.Schedules
         Task<IEnumerable<ClassModel>> GetAllClassAsync();
         Task<IEnumerable<SubjectModel>> GetAllSubjectAsync();
         Task<IEnumerable<TeacherModel>> GetAllTeacherAsync();
-        Task<ScheduleModel?> GetByIdAsync(int id);
+
+		Task<ScheduleModel?> GetByIdAsync(int id);
     }
 }
