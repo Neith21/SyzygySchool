@@ -7,6 +7,7 @@ namespace DEMO_PuellaSchoolAPP.Models
         public int ClassId { get; set; }
 
         [Required(ErrorMessage = "La información de la clase es obligatoria")]
+        [RegularExpression(@"^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ.,;:()\-]+$", ErrorMessage = "La información del horario contiene caracteres no permitidos")]
         public string ClassInfo { get; set; }
 
         [Required(ErrorMessage = "El grado es obligatorio")]
@@ -19,5 +20,4 @@ namespace DEMO_PuellaSchoolAPP.Models
 
         public SectionModel? Section { get; set; }
     }
-
 }

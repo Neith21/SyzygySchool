@@ -6,7 +6,6 @@
 
 <h1 style="text-align:center">Nuevo Registro de Horario</h1>
 
-<h4>*Al añadir un nuevo horario se notificará al docente.</h4>
 <hr />
 
 @if (TempData["message"] != null)
@@ -41,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ScheduleStart" class="control-label">Inicio</label>
-                    <select asp-for="ScheduleStart" class="form-control">
+                    <select asp-for="ScheduleStart" class="form-control" id="ScheduleStart" onchange="updateEndOptions()">
                         <option value="07:00:00">07:00</option>
                         <option value="08:50:00">08:50</option>
                         <option value="10:40:00">10:40</option>
@@ -50,7 +49,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ScheduleEnd" class="control-label">Final</label>
-                    <select asp-for="ScheduleEnd" class="form-control">
+                    <select asp-for="ScheduleEnd" class="form-control" id="ScheduleEnd">
                         <option value="08:20:00">08:20</option>
                         <option value="10:10:00">10:10</option>
                         <option value="12:00:00">12:00</option>
@@ -59,27 +58,21 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="SubjectId" class="form-label">Asignatura</label>
-                    <select asp-for="SubjectId"
-                            asp-items="@ViewBag.Subjects"
-                            class="form-select">
+                    <select asp-for="SubjectId" asp-items="@ViewBag.Subjects" class="form-select">
                         <option value="">Seleccione</option>
                     </select>
                     <span asp-validation-for="SubjectId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="TeacherId" class="form-label">Docente</label>
-                    <select asp-for="TeacherId"
-                            asp-items="@ViewBag.Teachers"
-                            class="form-select">
+                    <select asp-for="TeacherId" asp-items="@ViewBag.Teachers" class="form-select">
                         <option value="">Seleccione</option>
                     </select>
                     <span asp-validation-for="TeacherId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ClassId" class="form-label">Clase</label>
-                    <select asp-for="ClassId"
-                            asp-items="@ViewBag.Classes"
-                            class="form-select">
+                    <select asp-for="ClassId" asp-items="@ViewBag.Classes" class="form-select">
                         <option value="">Seleccione</option>
                     </select>
                     <span asp-validation-for="ClassId" class="text-danger"></span>
@@ -87,7 +80,6 @@
 
                 <div class="form-group">
                     <input type="submit" value="Guardar" class="btn btn-primary" />
-
                     <a asp-action="Index" class="btn btn-danger">Regresar al listado</a>
                 </div>
             </form>
@@ -96,17 +88,36 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
     <script>
-        function confirmAction() {
-            if (confirm('¿Está seguro de agregar este registro?')) {
-                return true;
-            } else {
-                window.location.href = '@Url.Action("Index", "Schedule")';
-                return false;
+        function updateEndOptions() {
+            var startSelect = document.getElementById("ScheduleStart");
+            var endSelect = document.getElementById("ScheduleEnd");
+            var selectedStart = startSelect.value;
+
+            var endOptions = {
+                "07:00:00": ["08:20:00"],
+                "08:50:00": ["10:10:00", "12:00:00"],
+                "10:40:00": ["12:00:00"]
+            };
+
+            // Clear current options
+            while (endSelect.options.length > 0) {
+                endSelect.remove(0);
             }
+
+            // Add new options based on selected start time
+            var options = endOptions[selectedStart];
+            for (var i = 0; i < options.length; i++) {
+                var option = document.createElement("option");
+                option.value = options[i];
+                option.text = options[i].substring(0, 5); // Display as HH:mm
+                endSelect.add(option);
+            }
+        }
+
+        function confirmAction() {
+            return confirm('¿Está seguro de agregar este registro?');
         }
     </script>
 }

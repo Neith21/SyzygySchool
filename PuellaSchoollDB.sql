@@ -656,6 +656,30 @@ BEGIN
     DECLARE @CurrentYear INT = YEAR(GETDATE());
     DECLARE @ScheduleExpiration DATE = DATEFROMPARTS(@CurrentYear, 12, 31);
 
+    -- Verificar si ya existe un horario con el mismo maestro en el mismo día y hora
+    IF EXISTS (SELECT 1
+               FROM Schedules
+               WHERE ScheduleDay = @ScheduleDay
+               AND ScheduleStart = @ScheduleStart
+               AND ScheduleEnd = @ScheduleEnd
+               AND TeacherId = @TeacherId)
+    BEGIN
+        RAISERROR('El maestro ya tiene un horario asignado en esta franja horaria.', 16, 1);
+        RETURN;
+    END
+
+    -- Verificar si ya existe un horario con la misma clase en el mismo día y hora
+    IF EXISTS (SELECT 1
+               FROM Schedules
+               WHERE ScheduleDay = @ScheduleDay
+               AND ScheduleStart = @ScheduleStart
+               AND ScheduleEnd = @ScheduleEnd
+               AND ClassId = @ClassId)
+    BEGIN
+        RAISERROR('La clase ya tiene un horario asignado en esta franja horaria.', 16, 1);
+        RETURN;
+    END
+
     INSERT INTO Schedules
     (
         ScheduleInfo,
@@ -683,6 +707,7 @@ BEGIN
 END
 GO
 
+
 CREATE OR ALTER PROC dbo.spSchedules_Update
 (
     @IdSchedule INT,
@@ -696,6 +721,32 @@ CREATE OR ALTER PROC dbo.spSchedules_Update
 )
 AS
 BEGIN
+    -- Verificar si ya existe un horario con el mismo maestro en el mismo día y hora
+    IF EXISTS (SELECT 1
+               FROM Schedules
+               WHERE ScheduleDay = @ScheduleDay
+               AND ScheduleStart = @ScheduleStart
+               AND ScheduleEnd = @ScheduleEnd
+               AND TeacherId = @TeacherId
+               AND IdSchedule != @IdSchedule)
+    BEGIN
+        RAISERROR('El maestro ya tiene un horario asignado en esta franja horaria.', 16, 1);
+        RETURN;
+    END
+
+    -- Verificar si ya existe un horario con la misma clase en el mismo día y hora
+    IF EXISTS (SELECT 1
+               FROM Schedules
+               WHERE ScheduleDay = @ScheduleDay
+               AND ScheduleStart = @ScheduleStart
+               AND ScheduleEnd = @ScheduleEnd
+               AND ClassId = @ClassId
+               AND IdSchedule != @IdSchedule)
+    BEGIN
+        RAISERROR('La clase ya tiene un horario asignado en esta franja horaria.', 16, 1);
+        RETURN;
+    END
+
     UPDATE Schedules
     SET 
         ScheduleInfo = @ScheduleInfo,
@@ -868,6 +919,13 @@ CREATE OR ALTER PROCEDURE dbo.spClasses_Insert
 )
 AS
 BEGIN
+    -- Verificar si ya existe un registro con el mismo grado y sección
+    IF EXISTS (SELECT 1 FROM Classes WHERE GradeId = @GradeId AND SectionId = @SectionId)
+    BEGIN
+        RAISERROR('Ya existe un registro con el mismo grado y sección.', 16, 1);
+        RETURN;
+    END
+
     INSERT INTO Classes
     (
         ClassInfo,
@@ -892,6 +950,13 @@ CREATE OR ALTER PROCEDURE dbo.spClasses_Update
 )
 AS
 BEGIN
+    -- Verificar si ya existe otro registro con el mismo grado y sección
+    IF EXISTS (SELECT 1 FROM Classes WHERE GradeId = @GradeId AND SectionId = @SectionId AND ClassId != @ClassId)
+    BEGIN
+        RAISERROR('Ya existe un registro con el mismo grado y sección.', 16, 1);
+        RETURN;
+    END
+
     UPDATE Classes
     SET 
         ClassInfo = @ClassInfo,
